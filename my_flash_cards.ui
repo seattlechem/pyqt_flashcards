@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1124</width>
-    <height>648</height>
+    <height>595</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,23 +20,26 @@
       <x>10</x>
       <y>0</y>
       <width>1101</width>
-      <height>601</height>
+      <height>541</height>
      </rect>
     </property>
+    <property name="autoFillBackground">
+     <bool>true</bool>
+    </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="new_card_tab">
      <attribute name="title">
       <string>New Card</string>
      </attribute>
-     <widget class="QTabWidget" name="tabWidget_2">
+     <widget class="QTabWidget" name="book_url_tabwidget">
       <property name="geometry">
        <rect>
-        <x>650</x>
-        <y>20</y>
+        <x>660</x>
+        <y>280</y>
         <width>411</width>
-        <height>181</height>
+        <height>191</height>
        </rect>
       </property>
       <property name="currentIndex">
@@ -46,7 +49,7 @@
        <attribute name="title">
         <string>Book</string>
        </attribute>
-       <widget class="QLabel" name="label">
+       <widget class="QLabel" name="book_title_label">
         <property name="geometry">
          <rect>
           <x>20</x>
@@ -59,11 +62,57 @@
          <string>Title</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="lineEdit">
+       <widget class="QLineEdit" name="book_title_inputbox">
         <property name="geometry">
          <rect>
           <x>60</x>
           <y>20</y>
+          <width>331</width>
+          <height>21</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="book_year_label">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>60</y>
+          <width>47</width>
+          <height>13</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Year</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="book_year_inputbox">
+        <property name="geometry">
+         <rect>
+          <x>60</x>
+          <y>60</y>
+          <width>331</width>
+          <height>21</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="book_author_label">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>100</y>
+          <width>47</width>
+          <height>13</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Author</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="book_year_inputbox_2">
+        <property name="geometry">
+         <rect>
+          <x>60</x>
+          <y>100</y>
           <width>331</width>
           <height>21</height>
          </rect>
@@ -74,6 +123,143 @@
        <attribute name="title">
         <string>URL</string>
        </attribute>
+       <widget class="QLabel" name="url_label">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>30</y>
+          <width>47</width>
+          <height>13</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>URL</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="url_inputbox">
+        <property name="geometry">
+         <rect>
+          <x>60</x>
+          <y>30</y>
+          <width>321</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+     <widget class="QLabel" name="question_label">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>40</y>
+        <width>47</width>
+        <height>13</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Question</string>
+      </property>
+     </widget>
+     <widget class="QPlainTextEdit" name="question_textbox">
+      <property name="geometry">
+       <rect>
+        <x>90</x>
+        <y>40</y>
+        <width>521</width>
+        <height>191</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="answer_label">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>280</y>
+        <width>47</width>
+        <height>13</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Answer</string>
+      </property>
+     </widget>
+     <widget class="QPlainTextEdit" name="answer_textbox">
+      <property name="geometry">
+       <rect>
+        <x>90</x>
+        <y>280</y>
+        <width>521</width>
+        <height>191</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QGroupBox" name="qa_groupbox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>621</width>
+        <height>491</height>
+       </rect>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="title">
+       <string>Question and Answer</string>
+      </property>
+      <property name="flat">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="subject_label">
+      <property name="geometry">
+       <rect>
+        <x>660</x>
+        <y>40</y>
+        <width>47</width>
+        <height>13</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>subject</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="add_new_subject_button">
+      <property name="geometry">
+       <rect>
+        <x>710</x>
+        <y>160</y>
+        <width>101</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Add New Subject</string>
+      </property>
+     </widget>
+     <widget class="QGroupBox" name="source_groupbox">
+      <property name="geometry">
+       <rect>
+        <x>640</x>
+        <y>10</y>
+        <width>451</width>
+        <height>491</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Source</string>
+      </property>
+      <widget class="QListWidget" name="subject_listWidget">
+       <property name="geometry">
+        <rect>
+         <x>70</x>
+         <y>30</y>
+         <width>345</width>
+         <height>111</height>
+        </rect>
+       </property>
       </widget>
      </widget>
     </widget>
@@ -81,6 +267,91 @@
      <attribute name="title">
       <string>Test</string>
      </attribute>
+     <widget class="QPlainTextEdit" name="plainTextEdit">
+      <property name="geometry">
+       <rect>
+        <x>140</x>
+        <y>50</y>
+        <width>711</width>
+        <height>371</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pass_button">
+      <property name="geometry">
+       <rect>
+        <x>930</x>
+        <y>102</y>
+        <width>75</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Pass</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="fail_button">
+      <property name="geometry">
+       <rect>
+        <x>930</x>
+        <y>190</y>
+        <width>75</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Fail</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="flip_button">
+      <property name="geometry">
+       <rect>
+        <x>930</x>
+        <y>370</y>
+        <width>75</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Flip</string>
+      </property>
+     </widget>
+     <widget class="QListWidget" name="test_subject_widget">
+      <property name="geometry">
+       <rect>
+        <x>210</x>
+        <y>450</y>
+        <width>171</width>
+        <height>51</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>150</x>
+        <y>460</y>
+        <width>47</width>
+        <height>13</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Subject</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="test_start_button">
+      <property name="geometry">
+       <rect>
+        <x>780</x>
+        <y>450</y>
+        <width>75</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Start</string>
+      </property>
+     </widget>
     </widget>
    </widget>
   </widget>

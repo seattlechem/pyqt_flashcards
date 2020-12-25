@@ -12,8 +12,10 @@ import flash_cards_resource
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QAction, QDialog, QTabWidget, \
     QVBoxLayout, QDialogButtonBox, QLabel, QPlainTextEdit, QGroupBox, QHBoxLayout, \
-        QPlainTextEdit, QLabel, QListWidget, QPushButton, QComboBox
+        QPlainTextEdit, QLabel, QListWidget, QPushButton, QComboBox, QDialog
+
 from PyQt5.QtGui import QIcon
+from dialog import Dialog
 
 
 class TabWidget(QDialog):
@@ -40,10 +42,10 @@ class QuestionGroupBox(QGroupBox):
         question_label.setText("Question")
         question_textbox = QPlainTextEdit()
 
-        hbox = QHBoxLayout()
-        hbox.addWidget(question_label)
-        hbox.addWidget(question_textbox)
-        self.setLayout(hbox)
+        vbox = QVBoxLayout()
+        vbox.addWidget(question_label)
+        vbox.addWidget(question_textbox)
+        self.setLayout(vbox)
 
 
 class AnswerGroupBox(QGroupBox):
@@ -53,10 +55,10 @@ class AnswerGroupBox(QGroupBox):
         answer_label.setText("Answer  ")
         answer_textbox = QPlainTextEdit()
 
-        hbox = QHBoxLayout()
-        hbox.addWidget(answer_label)
-        hbox.addWidget(answer_textbox)
-        self.setLayout(hbox)
+        vbox = QVBoxLayout()
+        vbox.addWidget(answer_label)
+        vbox.addWidget(answer_textbox)
+        self.setLayout(vbox)
 class QAGroupBox(QGroupBox):
     def __init__(self, title: str):
         super().__init__()
@@ -96,13 +98,12 @@ class combodemo(QWidget):
         self.setLayout(layout)
         self.setWindowTitle("combo box demo")
         self.cb.activated.connect(
-            self.trigger_add_new_subject)
+            self.add_new_subject)
 
     def trigger_add_new_subject(self):
         if self.cb.currentText() == 'Add New ...':
             print("hello")
             #TODO Open new dialog window
-
 
     def selectionchange(self, i):
         print("Items in the list are :")
@@ -110,6 +111,12 @@ class combodemo(QWidget):
         for count in range(self.cb.count()):
             print(self.cb.itemText(count))
         print("Current index", i, "selection changed ", self.cb.currentText())
+
+    def add_new_subject(self):
+        # add_dialog = QDialog()
+        add_dialog = Dialog()
+        add_dialog.exec_()
+
 
 class SourceGroupBox(QGroupBox):
     def __init__(self, title: str):

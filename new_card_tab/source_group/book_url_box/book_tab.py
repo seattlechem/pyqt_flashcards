@@ -51,3 +51,14 @@ class BookTab(QWidget):
         vbox.addWidget(self.note_input)
         vbox.addWidget(self.search_book_button)
         self.setLayout(vbox)
+
+    def search_book_button_action_connection(self):
+        self.search_book_button.clicked.connect()
+
+    def open_search_book_dialog(self):
+        #TODO
+        # add a logic to open a dialog where users can search for book
+        # in db by title or author
+        # if book exists users does not need to reenter the book info
+        #
+        pass

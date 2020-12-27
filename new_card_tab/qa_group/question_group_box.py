@@ -7,9 +7,9 @@ from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QAction, QDialog
 
 from PyQt5.QtGui import QIcon
 from db.db_script import SqliteConnection
+from common.my_group_box import MyGroupBox
 
-
-class QuestionGroupBox(QGroupBox):
+class QuestionGroupBox(MyGroupBox):
     def __init__(self):
         super().__init__()
 

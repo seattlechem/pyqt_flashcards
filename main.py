@@ -25,7 +25,7 @@ class TabWidget(QDialog):
         vbox = QVBoxLayout()
         vbox.addWidget(tab_widget)
         self.setLayout(vbox)
-        self.setFixedSize(640, 480)
+        # self.setFixedSize(600, 480)
 
 
 if __name__ == '__main__':

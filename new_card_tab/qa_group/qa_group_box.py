@@ -17,10 +17,12 @@ class QAGroupBox(QGroupBox):
         self.setTitle(title)
 
         question_groupbox = QuestionGroupBox()
+        # question_groupbox.setFlat(True)
+        # question_groupbox.setStyleSheet("border:0;")
         answer_groupbox = AnswerGroupBox()
 
         vbox = QVBoxLayout()
         vbox.addWidget(question_groupbox)
         vbox.addWidget(answer_groupbox)
         self.setLayout(vbox)
-        self.setFixedSize(320, 420)
+        self.setFixedSize(300, 500)

@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QAction, QDialog
     QPlainTextEdit, QLabel, QListWidget, QPushButton, QComboBox, QDialog
 
 from PyQt5.QtGui import QIcon
-from .add_new_subject_dialog import AddNewSubjectDialog
+#from .add_new_subject_dialog import AddNewSubjectDialog
 from db.db_script import SqliteConnection
 
 class SubjectComboBox(QWidget):
@@ -28,9 +28,9 @@ class SubjectComboBox(QWidget):
 
         layout.addWidget(self.cb)
         self.setLayout(layout)
-        self.setWindowTitle("combo box demo")
-        self.cb.activated.connect(
-            self.add_new_subject)
+        # self.setWindowTitle("combo box demo")
+        # self.cb.activated.connect(
+        #     self.add_new_subject)
 
     def trigger_add_new_subject(self):
         if self.cb.currentText() == 'Add New ...':
@@ -44,13 +44,13 @@ class SubjectComboBox(QWidget):
             print(self.cb.itemText(count))
         print("Current index", i, "selection changed ", self.cb.currentText())
 
-    def add_new_subject(self):
-        if self.cb.currentText() == 'Add New ...':
-            add_dialog = AddNewSubjectDialog()
-            # print(add_dialog)
-            # print(add_dialog.launch())
-            # add button is clicked, combobox selection changes to 'select subject'
+    # def add_new_subject(self):
+    #     if self.cb.currentText() == 'Add New ...':
+    #         add_dialog = AddNewSubjectDialog()
+    #         # print(add_dialog)
+    #         # print(add_dialog.launch())
+    #         # add button is clicked, combobox selection changes to 'select subject'
 
-            add_dialog.exec_()
-            if add_dialog.text != '':
-                self.cb.setCurrentText('Select .....')
+    #         add_dialog.exec_()
+    #         if add_dialog.text != '':
+    #             self.cb.setCurrentText('Select .....')

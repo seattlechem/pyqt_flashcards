@@ -15,7 +15,6 @@ from db.db_script import SqliteConnection
 class AddNewSubjectDialog(QDialog):
     def __init__(self):
         super().__init__()
-        self.subject_input = QLineEdit()
         self.setupUi()
         self.button_action_connection()
         self.text = ''
@@ -24,15 +23,15 @@ class AddNewSubjectDialog(QDialog):
     def setupUi(self):
         # label
         self.setWindowTitle('Add New Subject')
-        subject_name = QLabel()
-        # subject_input = QLineEdit()
-        subject_name.setText("Subject Name")
+        self.subject_name = QLabel()
+        self.subject_input = QLineEdit()
+        self.subject_name.setText("Subject Name")
         self.buttonBox = QtWidgets.QDialogButtonBox()
         self.buttonBox.addButton("Help", QtWidgets.QDialogButtonBox.HelpRole)
         self.buttonBox.addButton("Apply", QtWidgets.QDialogButtonBox.AcceptRole)
         self.buttonBox.addButton("Cancel", QtWidgets.QDialogButtonBox.RejectRole)
         grid_box = QGridLayout()
-        grid_box.addWidget(subject_name)
+        grid_box.addWidget(self.subject_name)
         grid_box.addWidget(self.subject_input)
         grid_box.addWidget(self.buttonBox)
         self.setLayout(grid_box)

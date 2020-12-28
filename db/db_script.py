@@ -31,6 +31,7 @@ class SqliteConnection():
         cur = self.conn.cursor()
         cur.execute(sql_stm, data)
         self.conn.commit()
+        return cur.lastrowid
 
     def add_subject_to_db(self, data: tuple):
 
@@ -43,7 +44,11 @@ class SqliteConnection():
 
         sql_stm = """INSERT INTO source_book (book_title, year, author) \
             VALUES (?, ?, ?);"""
-        self.post_sql_query(sql_stm, data)
+
+        row_id = self.post_sql_query(sql_stm, data)
+
+        # return id
+        return row_id
 
     def get_last_row_column_data(self, column_name: str, table_name: str):
         # open db
@@ -51,6 +56,7 @@ class SqliteConnection():
 
         sql_stm = f"SELECT {column_name} FROM {table_name} ORDER BY \
             {column_name} DESC LIMIT 1"
+
         res = self.get_sql_query(sql_stm)
 
         return res

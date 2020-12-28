@@ -47,18 +47,22 @@ class SourceGroupBox(QGroupBox):
         # combobox for subject
         # current selectio
         # currentText()
+        # currentIndex() - 1
         subject_combo = s_combo
 
         # book tab
         # title, author (QLineEdit), year, note (QPlainTextEdit)
         # toPlainText()
         # text()???
+        # what if this is a already inserted book?
+        # how to get id then?
         book_tab = url_book.book_tab
         #url tab
         # url (QPlainTextEdit)
         url_tab = url_book.url_tab
 
         # save book or url or both first
+        # save book, url, subject id to temp tablet
         # get id for book or url or both
         # get id for subject
         # prepare insert statement

@@ -18,6 +18,8 @@ class NewCardTab(QWidget):
         hbox = QHBoxLayout()
         qa_groupbox = QAGroupBox("Question and Answer")
         source_groupbox = SourceGroupBox("Source")
+
         hbox.addWidget(qa_groupbox)
         hbox.addWidget(source_groupbox)
+
         self.setLayout(hbox)

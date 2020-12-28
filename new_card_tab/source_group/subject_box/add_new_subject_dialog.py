@@ -1,15 +1,10 @@
 import sys
-import flash_cards_resource
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QApplication, QLabel, QWidget, QMainWindow, \
-    QAction, QDialog, QTabWidget, QVBoxLayout, QDialogButtonBox,\
-        QPlainTextEdit, QGroupBox, QHBoxLayout, QPlainTextEdit,\
-        QListWidget, QPushButton, QComboBox, QDialog, QPushButton,\
-        QGridLayout, QLineEdit
+from PyQt5.QtWidgets import QApplication, QLabel, QLineEdit, QDialogButtonBox, QGridLayout, \
+    QDialog
 from PyQt5.QtGui import QIcon
+from db.db_script import SqliteConnection
 
 # sys.path.append('../')
-from db.db_script import SqliteConnection
 
 
 class AddNewSubjectDialog(QDialog):
@@ -21,15 +16,14 @@ class AddNewSubjectDialog(QDialog):
         # self.pushButton.clicked.connect(self.close)
 
     def setupUi(self):
-        # label
         self.setWindowTitle('Add New Subject')
         self.subject_name = QLabel()
         self.subject_input = QLineEdit()
         self.subject_name.setText("Subject Name")
-        self.buttonBox = QtWidgets.QDialogButtonBox()
-        self.buttonBox.addButton("Help", QtWidgets.QDialogButtonBox.HelpRole)
-        self.buttonBox.addButton("Apply", QtWidgets.QDialogButtonBox.AcceptRole)
-        self.buttonBox.addButton("Cancel", QtWidgets.QDialogButtonBox.RejectRole)
+        self.buttonBox = QDialogButtonBox()
+        self.buttonBox.addButton("Help", QDialogButtonBox.HelpRole)
+        self.buttonBox.addButton("Apply", QDialogButtonBox.AcceptRole)
+        self.buttonBox.addButton("Cancel", QDialogButtonBox.RejectRole)
         grid_box = QGridLayout()
         grid_box.addWidget(self.subject_name)
         grid_box.addWidget(self.subject_input)
@@ -42,11 +36,17 @@ class AddNewSubjectDialog(QDialog):
     def button_action_connection(self):
         self.buttonBox.accepted.connect(self.apply_button_clicked)
 
-
     def apply_button_clicked(self):
         self.text = self.subject_input.text()
         sql_conn = SqliteConnection()
-        sql_conn.add_subject_to_db([(1, 'Chemistry')])
+
+        #TODO
+        # Find out what was the last id, so that id can be assigned
+        subj_id = sql_conn.get_last_row_column_data('subject_id', \
+            'subject_type')[0][0] + 1
+
+        sql_conn.add_subject_to_db(tuple([self.text]))
+
         self.close()
 
     def getLabelText(self):
@@ -56,6 +56,6 @@ class AddNewSubjectDialog(QDialog):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    dialog = Dialog()
+    dialog = QDialog()
     dialog.show()
     sys.exit(app.exec_())

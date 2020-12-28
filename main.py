@@ -1,10 +1,6 @@
 import sys
 import flash_cards_resource
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QAction, QDialog, QTabWidget, \
-    QVBoxLayout, QDialogButtonBox, QLabel, QPlainTextEdit, QGroupBox, QHBoxLayout, \
-    QPlainTextEdit, QLabel, QListWidget, QPushButton, QComboBox, QDialog
-
+from PyQt5.QtWidgets import QApplication, QTabWidget, QVBoxLayout, QDialog
 from PyQt5.QtGui import QIcon
 from new_card_tab.new_card_tab import NewCardTab
 from test_tab.test_tab import TestTab

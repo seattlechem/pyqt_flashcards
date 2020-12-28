@@ -1,5 +1,6 @@
 import sys
 import flash_cards_resource
+import new_card_tab.qa_group.question_group_box as q_box
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QAction, QDialog, QTabWidget, \
     QVBoxLayout, QDialogButtonBox, QLabel, QPlainTextEdit, QGroupBox, QHBoxLayout, \
@@ -19,7 +20,7 @@ class SourceGroupBox(QGroupBox):
         super().__init__()
         self.setTitle(title)
         self.setupUi()
-        # self.add_new_card_button.clicked.connect(self.open_dialog)
+        self.buttonBox.clicked.connect(self.submit_button_clicked)
 
     def setupUi(self):
         #self.subject_combo = SubjectComboBox()
@@ -44,6 +45,6 @@ class SourceGroupBox(QGroupBox):
 
         self.setLayout(gbox)
 
-    def open_dialog(self):
-        add_dialog = AddNewSubjectDialog()
-        add_dialog.exec_()
+    def submit_button_clicked(self):
+        quest_text_box = q_box.question_textbox
+        print("hello")

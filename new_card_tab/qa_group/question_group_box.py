@@ -9,12 +9,15 @@ from PyQt5.QtGui import QIcon
 from db.db_script import SqliteConnection
 from common.my_group_box import MyGroupBox
 
+question_textbox = None
 class QuestionGroupBox(MyGroupBox):
     def __init__(self):
         super().__init__()
 
         question_label = QLabel()
         question_label.setText("Question")
+
+        global question_textbox
         question_textbox = QPlainTextEdit()
 
         vbox = QVBoxLayout()

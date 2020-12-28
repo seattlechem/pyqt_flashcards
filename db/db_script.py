@@ -1,56 +1,60 @@
 import sys
-from PyQt5.QtSql import QSqlDatabase, QSqlQuery
+import sqlite3
 
 
-class SqliteConnection(QSqlDatabase):
+class SqliteConnection():
     def __init__(self):
         super().__init__()
-        self.conn = self.addDatabase("QSQLITE")
+        self.conn = self.open_db('./db/flashcards.db')
 
-    def set_db(self, db_name: str):
-        self.conn.setDatabaseName(db_name)
+    def open_db(self, db_file_path: str):
+        return sqlite3.connect(db_file_path)
 
-    def open_db(self):
-        self.set_db('./db/flashcards.db')
-        if not self.conn.open():
-            print('Unable to open db')
-            sys.exit(1)
-
-    def close_db(self):
-        if self.conn.isOpen():
+    def close_db(self, cur):
+        if self.conn:
+            cur.close()
             self.conn.close()
         else:
             print("Unable to close db; db is not open")
             sys.exit(1)
 
-    def add_subject_to_db(self, data):
-        self.open_db()
-        query = QSqlQuery()
+    def run_sql_query(self, sql_stm: str):
+        with self.conn:
+            cur = self.conn.cursor()
+            cur.execute(sql_stm)
+            res = cur.fetchall()
 
-        query.prepare(
-            """
-            INSERT INTO subject_type (
-                subject_id,
-                subject
-            )
-            VALUES (?, ?)
-            """
-        )
+        # self.close_db(cur)
+        return res
 
-        for subject_id, subject in data:
-            query.addBindValue(subject_id)
-            query.addBindValue(subject)
-            query.exec()
+    def add_subject_to_db(self, data: tuple):
 
-        self.close_db()
+        sql_stm = """INSERT into subject_type (subject) \
+            VALUES (?);"""
 
-    def get_all_subjects(self):
-        res = []
-        self.open_db()
-        sql_statement = 'SELECT subject FROM subject_type'
-        query = QSqlQuery(sql_statement)
+        cur = self.conn.cursor()
+        cur.execute(sql_stm, data)
+        self.conn.commit()
 
-        while query.next():
-            res.append(query.value(0))
+    def get_last_row_column_data(self, column_name: str, table_name: str):
+        # open db
+        # self.open_db()
+
+        sql_stm = f"SELECT {column_name} FROM {table_name} ORDER BY {column_name} DESC LIMIT 1"
+        res = self.run_sql_query(sql_stm)
 
         return res
+
+    def get_all_subjects(self):
+
+        sql_stm = 'SELECT subject FROM subject_type'
+        res = self.run_sql_query(sql_stm)
+        # self.conn.close()
+        return res
+
+
+if __name__ == '__main__':
+    sql_conn = SqliteConnection()
+    res = sql_conn.get_last_row_column_data('subject_id', 'subject_type')
+    print(len(res))
+    print(str(res[0][0]))

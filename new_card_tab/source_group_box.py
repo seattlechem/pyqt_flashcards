@@ -1,16 +1,9 @@
-import sys
-import flash_cards_resource
 import new_card_tab.qa_group.question_group_box as q_box
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QAction, QDialog, QTabWidget, \
-    QVBoxLayout, QDialogButtonBox, QLabel, QPlainTextEdit, QGroupBox, QHBoxLayout, \
-    QPlainTextEdit, QLabel, QListWidget, QPushButton, QComboBox, QDialog, \
-        QGridLayout
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QIcon
+import new_card_tab.qa_group.answer_group_box as a_box
+import new_card_tab.source_group.subject_box.subject_combobox as s_combo
+import new_card_tab.source_group.url_book_tab_group_box as url_book
+from PyQt5.QtWidgets import QDialogButtonBox, QGridLayout, QGroupBox
 from db.db_script import SqliteConnection
-#from .subject_combobox import SubjectComboBox
-#from .add_new_subject_dialog import AddNewSubjectDialog
 from .source_group.subject_group_box import SubjectGroupBox
 from .source_group.url_book_tab_group_box import URLBookTab
 
@@ -31,12 +24,12 @@ class SourceGroupBox(QGroupBox):
         url_book_group_box = URLBookTab()
 
         # self.setStyleSheet("background-color: rgb(128, 128, 128);")
-        self.buttonBox = QtWidgets.QDialogButtonBox()
+        self.buttonBox = QDialogButtonBox()
         # self.buttonBox.addButton("Help", QtWidgets.QDialogButtonBox.HelpRole)
         self.buttonBox.addButton(
-            "Submit", QtWidgets.QDialogButtonBox.AcceptRole)
+            "Submit", QDialogButtonBox.AcceptRole)
         self.buttonBox.addButton(
-            "Cancel", QtWidgets.QDialogButtonBox.RejectRole)
+            "Cancel", QDialogButtonBox.RejectRole)
 
         gbox = QGridLayout()
         gbox.addWidget(subject_group_box)
@@ -46,5 +39,26 @@ class SourceGroupBox(QGroupBox):
         self.setLayout(gbox)
 
     def submit_button_clicked(self):
+        # question and answer info
+        # validation: not empty
         quest_text_box = q_box.question_textbox
-        print("hello")
+        answer_text_box = a_box.answer_textbox
+
+        # combobox for subject
+        # current selectio
+        # currentText()
+        subject_combo = s_combo
+
+        # book tab
+        # title, author (QLineEdit), year, note (QPlainTextEdit)
+        # toPlainText()
+        # text()???
+        book_tab = url_book.book_tab
+        #url tab
+        # url (QPlainTextEdit)
+        url_tab = url_book.url_tab
+
+        # save book or url or both first
+        # get id for book or url or both
+        # get id for subject
+        # prepare insert statement

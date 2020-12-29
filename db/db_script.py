@@ -1,4 +1,5 @@
 import sys
+import datetime
 import sqlite3
 
 
@@ -50,6 +51,22 @@ class SqliteConnection():
         # return id
         return row_id
 
+    def check_book_title(self, title: str):
+        sql_stm = f"SELECT book_id FROM source_book WHERE book_title='{title}'"
+        row_id_list = self.get_sql_query(sql_stm)
+
+        if len(row_id_list) == 1:
+            return row_id_list[0][0]
+        else:
+            return None
+
+    def save_to_source_tb(self, book_id=None, url_id=None):
+        data = tuple([book_id, url_id])
+        sql_stm = """INSERT INTO source (book_id, url_id) \
+            VALUES (?, ?);"""
+        row_id = self.post_sql_query(sql_stm, data)
+        return row_id
+
     def get_last_row_column_data(self, column_name: str, table_name: str):
         # open db
         # self.open_db()
@@ -68,11 +85,23 @@ class SqliteConnection():
         # self.conn.close()
         return res
 
+    def post_datetime(self, created: datetime, modified: datetime):
+        data = tuple([created, modified, None, None])
+        sql_stm = """INSERT INTO date (created_date, modified_date, \
+            last_seen_date, last_fail_date) VALUES (?, ?, ?, ?);"""
+        res = self.post_sql_query(sql_stm, data)
+        print(res)
 
 if __name__ == '__main__':
     sql_conn = SqliteConnection()
     # res = sql_conn.get_last_row_column_data('subject_id', 'subject_type')
-    sql_stm = ['test book title', 1972, 'Me']
-    sql_conn.add_book_to_db(tuple(sql_stm))
+    # sql_stm = ['test book title', 1972, 'Me']
+    # sql_conn.add_book_to_db(tuple(sql_stm))
+    # sql_stm = 'test book title'
+    # print(sql_conn.check_book_title(sql_stm))
+
+    # print(sql_conn.save_to_source_tb(1))
+
+    sql_conn.post_datetime(datetime.datetime.now(), datetime.datetime.now())
     # print(len(res))
     # print(str(res[0][0]))

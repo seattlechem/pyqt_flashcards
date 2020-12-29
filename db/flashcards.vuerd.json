@@ -2,7 +2,7 @@
   "canvas": {
     "width": 2000,
     "height": 2000,
-    "scrollTop": 1,
+    "scrollTop": 0,
     "scrollLeft": 1,
     "show": {
       "tableComment": true,
@@ -219,7 +219,7 @@
           {
             "name": "created_date",
             "comment": "",
-            "dataType": "INTEGER",
+            "dataType": "datetime",
             "default": "",
             "option": {
               "autoIncrement": false,
@@ -242,7 +242,7 @@
           {
             "name": "modified_date",
             "comment": "",
-            "dataType": "INTEGER",
+            "dataType": "datetime",
             "default": "",
             "option": {
               "autoIncrement": false,
@@ -265,7 +265,7 @@
           {
             "name": "last_seen_date",
             "comment": "",
-            "dataType": "INTEGER",
+            "dataType": "datetime",
             "default": "",
             "option": {
               "autoIncrement": false,
@@ -288,7 +288,7 @@
           {
             "name": "last_fail_date",
             "comment": "",
-            "dataType": "INTEGER",
+            "dataType": "datetime",
             "default": "",
             "option": {
               "autoIncrement": false,
@@ -310,10 +310,10 @@
           }
         ],
         "ui": {
-          "active": false,
-          "left": 805,
-          "top": 61,
-          "zIndex": 457,
+          "active": true,
+          "left": 857,
+          "top": 76,
+          "zIndex": 506,
           "widthName": 60,
           "widthComment": 60
         },
@@ -372,9 +372,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 106,
-          "top": 657,
-          "zIndex": 469,
+          "left": 105.99999999999996,
+          "top": 657.0000000000003,
+          "zIndex": 481,
           "widthName": 63,
           "widthComment": 60
         },
@@ -626,7 +626,7 @@
           "active": false,
           "left": 86,
           "top": 409,
-          "zIndex": 479,
+          "zIndex": 486,
           "widthName": 60,
           "widthComment": 60
         },
@@ -678,8 +678,8 @@
           "columnIds": [
             "cf5c2f4e-5529-9e2b-d9c5-b19ea76fe3e6"
           ],
-          "x": 805,
-          "y": 146.75,
+          "x": 857,
+          "y": 161.75,
           "direction": "left"
         },
         "end": {
@@ -720,29 +720,6 @@
       {
         "identification": false,
         "start": {
-          "tableId": "53fd8eb0-8223-693a-a0aa-fb08df43d6d0",
-          "columnIds": [
-            "0d5a47b5-8db3-9bb1-7a32-bc2c8e3f9461"
-          ],
-          "x": 279.5,
-          "y": 657,
-          "direction": "top"
-        },
-        "end": {
-          "tableId": "beac9a83-4801-ecc5-a9af-619a7f3cbfb5",
-          "columnIds": [
-            "91bbe955-9104-c0bc-11e3-0cdac685cc73"
-          ],
-          "x": 259.5,
-          "y": 539.5,
-          "direction": "bottom"
-        },
-        "id": "b6eb60d8-68c9-11a5-f702-4f905890cf97",
-        "relationshipType": "OneN"
-      },
-      {
-        "identification": false,
-        "start": {
           "tableId": "beac9a83-4801-ecc5-a9af-619a7f3cbfb5",
           "columnIds": [
             "3a5bf207-12f0-d347-04fa-26cf54fa21ce"
@@ -762,6 +739,29 @@
         },
         "id": "096ffcb2-80d8-9eb3-3ef5-090a59bd0f78",
         "relationshipType": "N"
+      },
+      {
+        "identification": false,
+        "start": {
+          "tableId": "53fd8eb0-8223-693a-a0aa-fb08df43d6d0",
+          "columnIds": [
+            "0d5a47b5-8db3-9bb1-7a32-bc2c8e3f9461"
+          ],
+          "x": 279.49999999999994,
+          "y": 657.0000000000003,
+          "direction": "top"
+        },
+        "end": {
+          "tableId": "beac9a83-4801-ecc5-a9af-619a7f3cbfb5",
+          "columnIds": [
+            "91bbe955-9104-c0bc-11e3-0cdac685cc73"
+          ],
+          "x": 259.5,
+          "y": 539.5,
+          "direction": "bottom"
+        },
+        "id": "b6eb60d8-68c9-11a5-f702-4f905890cf97",
+        "relationshipType": "OneN"
       }
     ]
   }

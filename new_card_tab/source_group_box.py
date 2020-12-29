@@ -38,31 +38,50 @@ class SourceGroupBox(QGroupBox):
 
         self.setLayout(gbox)
 
+    def new_card_input_validation(self, question: str, answer: str, subject_id: int,
+                                  book_title: str, book_author: str, book_year: str):
+        # check if all fields are provided
+        if question != '' and answer != '':
+            if subject_id != -1 and book_title != '':
+                if book_author != '' and book_year != '':
+                    return True
+        return False
+
     def submit_button_clicked(self):
-        # question and answer info
-        # validation: not empty
-        quest_text_box = q_box.question_textbox
-        answer_text_box = a_box.answer_textbox
+        question = q_box.question_textbox.toPlainText()
+        answer = a_box.answer_textbox.toPlainText()
+        subject_id = s_combo.cb.currentIndex()
+        book_title = url_book.book_tab.title_input.text()
+        book_author = url_book.book_tab.author_input.text()
+        book_year = url_book.book_tab.year_input.text()
+        book_note = url_book.book_tab.note_input.toPlainText()
+        book_id = None
+        url_id = None
 
-        # combobox for subject
-        # current selectio
-        # currentText()
-        # currentIndex() - 1
-        subject_combo = s_combo
+        # call validation method
+        if self.new_card_input_validation(question, answer, subject_id, book_title, book_author,
+                                          book_year):
+            # search if book is already saved
+            sql_conn = SqliteConnection()
+            book_id = sql_conn.check_book_title(book_title)
+            if book_id is None:
+                # save to source_book table
+                data = tuple([book_title, int(book_year), book_author])
+                book_id = sql_conn.add_book_to_db(data)
 
-        # book tab
-        # title, author (QLineEdit), year, note (QPlainTextEdit)
-        # toPlainText()
-        # text()???
-        # what if this is a already inserted book?
-        # how to get id then?
-        book_tab = url_book.book_tab
-        #url tab
-        # url (QPlainTextEdit)
-        url_tab = url_book.url_tab
+            # at this point book exists in source_book table
+            # save information to source table
+            source_id = sql_conn.save_to_source_tb(book_id, url_id)
 
-        # save book or url or both first
-        # save book, url, subject id to temp tablet
-        # get id for book or url or both
-        # get id for subject
-        # prepare insert statement
+            # save into date table
+            # created_date and modified_date are required info
+            # get date_id
+            # save question and aswer information to question_answer table
+
+            # save into question_answer
+
+            # save book or url or both first
+            # save book, url, subject id to temp tablet
+            # get id for book or url or both
+            # get id for subject
+            # prepare insert statement

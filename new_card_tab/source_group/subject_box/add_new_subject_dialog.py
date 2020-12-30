@@ -45,7 +45,7 @@ class AddNewSubjectDialog(QDialog):
         subj_id = sql_conn.get_last_row_column_data('subject_id', \
             'subject_type')[0][0] + 1
 
-        sql_conn.add_subject_to_db(tuple([self.text]))
+        sql_conn.add_subject_to_db(self.text)
 
         self.close()
 

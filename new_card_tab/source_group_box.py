@@ -1,3 +1,4 @@
+import datetime
 import new_card_tab.qa_group.question_group_box as q_box
 import new_card_tab.qa_group.answer_group_box as a_box
 import new_card_tab.source_group.subject_box.subject_combobox as s_combo
@@ -59,29 +60,26 @@ class SourceGroupBox(QGroupBox):
         url_id = None
 
         # call validation method
-        if self.new_card_input_validation(question, answer, subject_id, book_title, book_author,
-                                          book_year):
+        if self.new_card_input_validation(question, answer, subject_id, \
+            book_title, book_author, book_year):
             # search if book is already saved
             sql_conn = SqliteConnection()
             book_id = sql_conn.check_book_title(book_title)
             if book_id is None:
                 # save to source_book table
-                data = tuple([book_title, int(book_year), book_author])
-                book_id = sql_conn.add_book_to_db(data)
+                book_id = sql_conn.add_book_to_db(book_title, int(book_year), \
+                    book_author, book_note)
 
             # at this point book exists in source_book table
             # save information to source table
             source_id = sql_conn.save_to_source_tb(book_id, url_id)
 
             # save into date table
-            # created_date and modified_date are required info
-            # get date_id
+            now = datetime.datetime.now()
+            date_id = sql_conn.post_datetime(now, now)
+
             # save question and aswer information to question_answer table
-
-            # save into question_answer
-
-            # save book or url or both first
-            # save book, url, subject id to temp tablet
-            # get id for book or url or both
-            # get id for subject
-            # prepare insert statement
+            # required info:
+            # question, answer, subject_id, date_id, source_id
+            sql_conn.post_question_answer_tb(question, answer, subject_id, \
+                date_id, source_id)

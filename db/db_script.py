@@ -9,8 +9,7 @@ class SqliteConnection():
         self.conn = self.open_db('./db/flashcards_datetime.db')
 
     def open_db(self, db_file_path: str):
-        return sqlite3.connect(db_file_path, detect_types= \
-            sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
+        return sqlite3.connect(db_file_path, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
 
     def close_db(self, cur):
         if self.conn:
@@ -29,25 +28,27 @@ class SqliteConnection():
         # self.close_db(cur)
         return res
 
-    def post_sql_query(self, sql_stm: str, data: tuple):
+    def post_sql_query(self, sql_stm: str):
         cur = self.conn.cursor()
-        cur.execute(sql_stm, data)
+        cur.execute(sql_stm)
         self.conn.commit()
         return cur.lastrowid
 
-    def add_subject_to_db(self, data: tuple):
+    def add_subject_to_db(self, subject: str):
 
-        sql_stm = """INSERT into subject_type (subject) \
-            VALUES (?);"""
+        sql_stm = f"INSERT into subject_type (subject) \
+            VALUES ('{subject}');"
 
-        self.post_sql_query(sql_stm, data)
+        self.post_sql_query(sql_stm)
 
-    def add_book_to_db(self, data: tuple):
+    def add_book_to_db(self, book_title: str, year: int, author: str, \
+        book_note=None):
 
-        sql_stm = """INSERT INTO source_book (book_title, year, author) \
-            VALUES (?, ?, ?);"""
+        sql_stm = f"INSERT INTO source_book (book_title, year, author, \
+            book_note) VALUES ('{book_title}', '{year}', '{author}', \
+                '{book_note}');"
 
-        row_id = self.post_sql_query(sql_stm, data)
+        row_id = self.post_sql_query(sql_stm)
 
         # return id
         return row_id
@@ -62,10 +63,9 @@ class SqliteConnection():
             return None
 
     def save_to_source_tb(self, book_id=None, url_id=None):
-        data = tuple([book_id, url_id])
-        sql_stm = """INSERT INTO source (book_id, url_id) \
-            VALUES (?, ?);"""
-        row_id = self.post_sql_query(sql_stm, data)
+        sql_stm = f"INSERT INTO source (book_id, url_id) \
+            VALUES ('{book_id}', '{url_id}');"
+        row_id = self.post_sql_query(sql_stm)
         return row_id
 
     def get_last_row_column_data(self, column_name: str, table_name: str):
@@ -86,33 +86,41 @@ class SqliteConnection():
         # self.conn.close()
         return res
 
-    def post_datetime(self, created: datetime, modified: datetime):
-        data = tuple([created, modified, None, None])
-        sql_stm = """INSERT INTO date (created_date, modified_date, \
-            last_seen_date, last_fail_date) VALUES (?, ?, ?, ?);"""
-        res = self.post_sql_query(sql_stm, data)
-        print(res)
+    def post_datetime(self, created: datetime, modified: datetime,
+                      last_seen=None, last_fail=None):
+        sql_stm = f"INSERT INTO date (created_date, modified_date, \
+            last_seen_date, last_fail_date) VALUES ('{created}', '{modified}', \
+                '{last_seen}', '{last_fail}');"
+        res = self.post_sql_query(sql_stm)
+        return res
 
     def get_datetime(self, date_id: int):
         sql_stm = f"SELECT created_date from date where date_id='{date_id}'"
         res = self.get_sql_query(sql_stm)
         return res
 
+    def post_question_answer_tb(self, question: str, answer: str,
+                                subject_id: int, date_id: int, source_id: int):
+        sql_stm = f"INSERT INTO question_answer (question, answer, subject_id,\
+            date_id, source_id) VALUES ('{question}', '{answer}', \
+                '{subject_id}', '{date_id}', '{source_id}')"
+        res = self.post_sql_query(sql_stm)
+
+
 if __name__ == '__main__':
     sql_conn = SqliteConnection()
     # res = sql_conn.get_last_row_column_data('subject_id', 'subject_type')
     # sql_stm = ['test book title', 1972, 'Me']
-    # sql_conn.add_book_to_db(tuple(sql_stm))
+    sql_conn.add_book_to_db('test book tilte', 1972, 'me')
     # sql_stm = 'test book title'
     # print(sql_conn.check_book_title(sql_stm))
 
     # print(sql_conn.save_to_source_tb(1))
 
-    sql_conn.post_datetime(datetime.datetime.now(), datetime.datetime.now())
-    res = sql_conn.get_datetime(1)
-    print(type(res[0][0]))
-    print(res[0][0])
-
+    # sql_conn.post_datetime(datetime.datetime.now(), datetime.datetime.now())
+    # res = sql_conn.get_datetime(1)
+    # print(type(res[0][0]))
+    # print(res[0][0])
 
     # print(len(res))
     # print(str(res[0][0]))

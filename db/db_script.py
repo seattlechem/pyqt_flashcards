@@ -6,10 +6,11 @@ import sqlite3
 class SqliteConnection():
     def __init__(self):
         super().__init__()
-        self.conn = self.open_db('./db/flashcards.db')
+        self.conn = self.open_db('./db/flashcards_datetime.db')
 
     def open_db(self, db_file_path: str):
-        return sqlite3.connect(db_file_path)
+        return sqlite3.connect(db_file_path, detect_types= \
+            sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
 
     def close_db(self, cur):
         if self.conn:
@@ -92,6 +93,11 @@ class SqliteConnection():
         res = self.post_sql_query(sql_stm, data)
         print(res)
 
+    def get_datetime(self, date_id: int):
+        sql_stm = f"SELECT created_date from date where date_id='{date_id}'"
+        res = self.get_sql_query(sql_stm)
+        return res
+
 if __name__ == '__main__':
     sql_conn = SqliteConnection()
     # res = sql_conn.get_last_row_column_data('subject_id', 'subject_type')
@@ -103,5 +109,10 @@ if __name__ == '__main__':
     # print(sql_conn.save_to_source_tb(1))
 
     sql_conn.post_datetime(datetime.datetime.now(), datetime.datetime.now())
+    res = sql_conn.get_datetime(1)
+    print(type(res[0][0]))
+    print(res[0][0])
+
+
     # print(len(res))
     # print(str(res[0][0]))

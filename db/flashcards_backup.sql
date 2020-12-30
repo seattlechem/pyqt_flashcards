@@ -2,10 +2,10 @@
 CREATE TABLE date
 (
   date_id        INTEGER NOT NULL,
-  created_date   timestamp NOT NULL,
-  modified_date  timestamp NOT NULL,
-  last_seen_date timestamp NULL    ,
-  last_fail_date timestamp NULL    ,
+  created_date   INTEGER NOT NULL,
+  modified_date  INTEGER NOT NULL,
+  last_seen_date INTEGER NULL    ,
+  last_fail_date INTEGER NULL    ,
   PRIMARY KEY (date_id)
 );
 
@@ -55,3 +55,4 @@ CREATE TABLE source
   FOREIGN KEY (book_id) REFERENCES source_book (book_id),
   FOREIGN KEY (url_id) REFERENCES source_url (url_id)
 );
+

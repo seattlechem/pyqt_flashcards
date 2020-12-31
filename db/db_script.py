@@ -6,7 +6,7 @@ import sqlite3
 class SqliteConnection():
     def __init__(self):
         super().__init__()
-        self.conn = self.open_db('./db/flashcards_datetime.db')
+        self.conn = self.open_db('./db/flashcards.db')
 
     def open_db(self, db_file_path: str):
         return sqlite3.connect(db_file_path, \

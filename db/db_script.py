@@ -9,7 +9,8 @@ class SqliteConnection():
         self.conn = self.open_db('./db/flashcards_datetime.db')
 
     def open_db(self, db_file_path: str):
-        return sqlite3.connect(db_file_path, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
+        return sqlite3.connect(db_file_path, \
+            detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
 
     def close_db(self, cur):
         if self.conn:

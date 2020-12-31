@@ -10,6 +10,10 @@ from .search_book_dialog import SearchBookDialog
 # from .qa_group_box import QAGroupBox
 # from .source_group_box import SourceGroupBox
 
+book_title = None
+book_author = None
+book_year = None
+book_note = None
 
 class BookTab(QWidget):
     def __init__(self):
@@ -21,21 +25,29 @@ class BookTab(QWidget):
 
         # title: QLabel, QLineEdit
         self.title_label = QLabel("Title")
+        global book_title
         self.title_input = QLineEdit()
+        book_title = self.title_input
 
         # author
         self.author_label = QLabel("Author")
+        global book_author
         self.author_input = QLineEdit()
+        book_author = self.author_input
 
         # year
         self.year_label = QLabel("Year")
+        global book_year
         self.year_input = QLineEdit()
+        book_year = self.year_input
 
         # note QPlainTextEdit
         self.note_label = QLabel("Note")
+        global book_note
         self.note_input = QPlainTextEdit()
         self.note_input.setStyleSheet("background-color: rgb(128, 128, 128);")
         self.note_input.setMaximumHeight(100)
+        book_note = self.note_input
 
         # TO btn_search_book
         self.search_book_button = QPushButton("Search Book")

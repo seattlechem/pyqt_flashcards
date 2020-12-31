@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QApplication, QLabel, QLineEdit, QDialogButtonBox, Q
     QDialog
 from PyQt5.QtGui import QIcon
 from db.db_script import SqliteConnection
-import new_card_tab.source_group.url_book_tab_group_box as url_book
+import new_card_tab.source_group.book_url_box.book_tab as book
 # sys.path.append('../')
 
 
@@ -48,14 +48,16 @@ class SearchBookDialog(QDialog):
             # if returned id is > 0, pre populate book_title, year, book_author
             (_, book_title, book_year, book_author) = \
                 sql_conn.search_book_by_title(self.book_title)
-            self.set_book_tab_text(book_title, book_author, str(book_year))
+            self.set_book_tab_text(book_title, book_author, str(book_year), \
+                book_note)
         self.close()
 
-    def set_book_tab_text(self, book_title, book_author, book_year):
+    def set_book_tab_text(self, book_title, book_author, book_year, book_note):
 
-        url_book.book_tab.title_input.setText(book_title)
-        url_book.book_tab.author_input.setText(book_author)
-        url_book.book_tab.year_input.setText(book_year)
+        book.book_title.setText(book_title)
+        book.book_author.setText(book_author)
+        book.book_year.setText(book_year)
+        book.book_note.setPlainText(book_note)
 
 
 if __name__ == '__main__':

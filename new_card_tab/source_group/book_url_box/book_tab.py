@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QAction, QDialog
     QListWidget, QPushButton, QComboBox, QDialog, QLineEdit, QGridLayout
 
 from PyQt5.QtGui import QIcon
+from .search_book_dialog import SearchBookDialog
 # from db.db_script import SqliteConnection
 # from .qa_group_box import QAGroupBox
 # from .source_group_box import SourceGroupBox
@@ -14,6 +15,7 @@ class BookTab(QWidget):
     def __init__(self):
         super().__init__()
         self.setupUi()
+        self.search_book_button_action_connection()
 
     def setupUi(self):
 
@@ -35,10 +37,9 @@ class BookTab(QWidget):
         self.note_input.setStyleSheet("background-color: rgb(128, 128, 128);")
         self.note_input.setMaximumHeight(100)
 
-        #TO btn_search_book
+        # TO btn_search_book
         self.search_book_button = QPushButton("Search Book")
         self.search_book_button.setMinimumWidth(100)
-
 
         vbox = QVBoxLayout()
         vbox.addWidget(self.title_label)
@@ -56,9 +57,10 @@ class BookTab(QWidget):
         self.search_book_button.clicked.connect()
 
     def open_search_book_dialog(self):
-        #TODO
+        # TODO
         # add a logic to open a dialog where users can search for book
         # in db by title or author
         # if book exists users does not need to reenter the book info
         #
-        pass
+        add_dialog = SearchBookDialog()
+        add_dialog.exec_()

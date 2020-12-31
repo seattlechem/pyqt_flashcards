@@ -64,7 +64,7 @@ class SourceGroupBox(QGroupBox):
             book_title, book_author, book_year):
             # search if book is already saved
             sql_conn = SqliteConnection()
-            book_id = sql_conn.check_book_title(book_title)
+            book_id = sql_conn.search_book_id_by_title(book_title)
             if book_id is None:
                 # save to source_book table
                 book_id = sql_conn.add_book_to_db(book_title, int(book_year), \
@@ -78,7 +78,7 @@ class SourceGroupBox(QGroupBox):
             now = datetime.datetime.now()
             date_id = sql_conn.post_datetime(now, now)
 
-            # save question and aswer information to question_answer table
+            # save question and answer information to question_answer table
             # required info:
             # question, answer, subject_id, date_id, source_id
             sql_conn.post_question_answer_tb(question, answer, subject_id, \

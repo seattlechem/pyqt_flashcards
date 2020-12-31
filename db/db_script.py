@@ -53,7 +53,7 @@ class SqliteConnection():
         # return id
         return row_id
 
-    def check_book_title(self, title: str):
+    def search_book_id_by_title(self, title: str):
         sql_stm = f"SELECT book_id FROM source_book WHERE book_title='{title}'"
         row_id_list = self.get_sql_query(sql_stm)
 
@@ -61,6 +61,11 @@ class SqliteConnection():
             return row_id_list[0][0]
         else:
             return None
+
+    def search_book_by_title(self, title: str):
+        sql_stm = f"SELECT * FROM source_book WHERE book_title='{title}'"
+        res = self.get_sql_query(sql_stm)[0]
+        return res
 
     def save_to_source_tb(self, book_id=None, url_id=None):
         sql_stm = f"INSERT INTO source (book_id, url_id) \

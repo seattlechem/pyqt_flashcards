@@ -3,10 +3,12 @@ import new_card_tab.qa_group.question_group_box as q_box
 import new_card_tab.qa_group.answer_group_box as a_box
 import new_card_tab.source_group.subject_box.subject_combobox as s_combo
 import new_card_tab.source_group.url_book_tab_group_box as url_book
-from PyQt5.QtWidgets import QDialogButtonBox, QGridLayout, QGroupBox
+from PyQt5.QtWidgets import QDialogButtonBox, QGridLayout, QGroupBox, \
+    QPushButton
 from db.db_script import SqliteConnection
 from .source_group.subject_group_box import SubjectGroupBox
 from .source_group.url_book_tab_group_box import URLBookTab
+from .search_book_dialog import SearchBookDialog
 
 
 class SourceGroupBox(QGroupBox):
@@ -14,7 +16,9 @@ class SourceGroupBox(QGroupBox):
         super().__init__()
         self.setTitle(title)
         self.setupUi()
-        self.buttonBox.clicked.connect(self.submit_button_clicked)
+        self.buttonBox.accepted.connect(self.submit_button_clicked)
+        self.search_book_btn.clicked.connect(self.search_book_btn_clicked)
+        self.update_note_btn.clicked.connect()
 
     def setupUi(self):
         #self.subject_combo = SubjectComboBox()
@@ -25,12 +29,16 @@ class SourceGroupBox(QGroupBox):
         url_book_group_box = URLBookTab()
 
         # self.setStyleSheet("background-color: rgb(128, 128, 128);")
+        self.search_book_btn = QPushButton("Search Book")
         self.buttonBox = QDialogButtonBox()
+        self.update_note_btn = QPushButton("Update Note")
         # self.buttonBox.addButton("Help", QtWidgets.QDialogButtonBox.HelpRole)
-        self.buttonBox.addButton(
-            "Submit", QDialogButtonBox.AcceptRole)
-        self.buttonBox.addButton(
-            "Cancel", QDialogButtonBox.RejectRole)
+        self.buttonBox.addButton("Submit", QDialogButtonBox.AcceptRole)
+        self.buttonBox.addButton(self.search_book_btn, \
+            QDialogButtonBox.ActionRole)
+        self.buttonBox.addButton(self.update_note_btn, \
+            QDialogButtonBox.ActionRole)
+        self.buttonBox.addButton("Cancel", QDialogButtonBox.RejectRole)
 
         gbox = QGridLayout()
         gbox.addWidget(subject_group_box)
@@ -38,6 +46,12 @@ class SourceGroupBox(QGroupBox):
         gbox.addWidget(self.buttonBox)
 
         self.setLayout(gbox)
+
+    def clear_all_input_fields(self):
+        q_box.question_textbox.setPlainText('')
+        a_box.answer_textbox.setPlainText('')
+        s_com.cb.
+
 
     def new_card_input_validation(self, question: str, answer: str, subject_id: int,
                                   book_title: str, book_author: str, book_year: str):
@@ -47,6 +61,16 @@ class SourceGroupBox(QGroupBox):
                 if book_author != '' and book_year != '':
                     return True
         return False
+
+    def search_book_btn_clicked(self):
+        #print("search book btn clicked")
+        # TODO
+        # add a logic to open a dialog where users can search for book
+        # in db by title or author
+        # if book exists users does not need to reenter the book info
+        #
+        add_dialog = SearchBookDialog()
+        add_dialog.exec_()
 
     def submit_button_clicked(self):
         question = q_box.question_textbox.toPlainText()

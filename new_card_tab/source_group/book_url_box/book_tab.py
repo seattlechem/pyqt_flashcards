@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QAction, QDialog
     QListWidget, QPushButton, QComboBox, QDialog, QLineEdit, QGridLayout
 
 from PyQt5.QtGui import QIcon
-from .search_book_dialog import SearchBookDialog
+#from .search_book_dialog import SearchBookDialog
 # from db.db_script import SqliteConnection
 # from .qa_group_box import QAGroupBox
 # from .source_group_box import SourceGroupBox
@@ -19,7 +19,7 @@ class BookTab(QWidget):
     def __init__(self):
         super().__init__()
         self.setupUi()
-        self.search_book_button_action_connection()
+        # self.search_book_button_action_connection()
 
     def setupUi(self):
 
@@ -46,12 +46,12 @@ class BookTab(QWidget):
         global book_note
         self.note_input = QPlainTextEdit()
         self.note_input.setStyleSheet("background-color: rgb(128, 128, 128);")
-        self.note_input.setMaximumHeight(100)
+        self.note_input.setMaximumHeight(120)
         book_note = self.note_input
 
         # TO btn_search_book
-        self.search_book_button = QPushButton("Search Book")
-        self.search_book_button.setMinimumWidth(100)
+        # self.search_book_button = QPushButton("Search Book")
+        # self.search_book_button.setMinimumWidth(100)
 
         vbox = QVBoxLayout()
         vbox.addWidget(self.title_label)
@@ -62,17 +62,17 @@ class BookTab(QWidget):
         vbox.addWidget(self.year_input)
         vbox.addWidget(self.note_label)
         vbox.addWidget(self.note_input)
-        vbox.addWidget(self.search_book_button)
+        # vbox.addWidget(self.search_book_button)
         self.setLayout(vbox)
 
-    def search_book_button_action_connection(self):
-        self.search_book_button.clicked.connect()
+    # def search_book_button_action_connection(self):
+    #     self.search_book_button.clicked.connect()
 
-    def open_search_book_dialog(self):
-        # TODO
-        # add a logic to open a dialog where users can search for book
-        # in db by title or author
-        # if book exists users does not need to reenter the book info
-        #
-        add_dialog = SearchBookDialog()
-        add_dialog.exec_()
+    # def open_search_book_dialog(self):
+    #     # TODO
+    #     # add a logic to open a dialog where users can search for book
+    #     # in db by title or author
+    #     # if book exists users does not need to reenter the book info
+    #     #
+    #     add_dialog = SearchBookDialog()
+    #     add_dialog.exec_()

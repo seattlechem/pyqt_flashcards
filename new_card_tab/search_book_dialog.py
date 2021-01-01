@@ -1,10 +1,10 @@
 import sys
+import new_card_tab.source_group.book_url_box.book_tab as book
+from db.db_script import SqliteConnection
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QApplication, QLabel, QLineEdit, QDialogButtonBox, QGridLayout, \
     QDialog
-from PyQt5.QtGui import QIcon
-from db.db_script import SqliteConnection
-import new_card_tab.source_group.book_url_box.book_tab as book
-# sys.path.append('../')
+from common.my_dialog_box import MessageBox
 
 
 class SearchBookDialog(QDialog):
@@ -42,14 +42,26 @@ class SearchBookDialog(QDialog):
         # if returned id is None, open dialog displaying a message that book
         # is not found
         # book_title, year, book_author field is not editable
-        book_id = sql_conn.search_book_id_by_title(self.book_title)
+        book_id = sql_conn.search_book_id_by_title(self.book_text)
 
-        if book_id > 0:
+        if isinstance(book_id, int) and book_id > 0:
             # if returned id is > 0, pre populate book_title, year, book_author
-            (_, book_title, book_year, book_author) = \
-                sql_conn.search_book_by_title(self.book_title)
-            self.set_book_tab_text(book_title, book_author, str(book_year), \
-                book_note)
+            (_, book_title, book_year, book_author, book_note) = \
+                sql_conn.search_book_by_title(self.book_text)
+
+            self.set_book_tab_text(book_title, book_author, str(book_year),
+                                   book_note)
+
+            self.set_qlineedit_enable(
+                book_title, book_author, book_year, False)
+
+        else:
+            msg_box = MessageBox('No book is found !!!')
+            msg_box.exec_()
+            # save to db (source_book tb)
+            # should not save to db. open a dialog message saying no recrod
+            # found
+
         self.close()
 
     def set_book_tab_text(self, book_title, book_author, book_year, book_note):
@@ -58,6 +70,12 @@ class SearchBookDialog(QDialog):
         book.book_author.setText(book_author)
         book.book_year.setText(book_year)
         book.book_note.setPlainText(book_note)
+
+    def set_qlineedit_enable(self, book_title, book_author, book_year,
+                             enable=True):
+        book.book_title.setEnabled(enable)
+        book.book_author.setEnabled(enable)
+        book.book_year.setEnabled(enable)
 
 
 if __name__ == '__main__':

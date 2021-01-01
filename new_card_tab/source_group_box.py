@@ -9,6 +9,7 @@ from db.db_script import SqliteConnection
 from .source_group.subject_group_box import SubjectGroupBox
 from .source_group.url_book_tab_group_box import URLBookTab
 from .search_book_dialog import SearchBookDialog
+from common.my_dialog_box import MessageBox
 
 
 class SourceGroupBox(QGroupBox):
@@ -18,7 +19,7 @@ class SourceGroupBox(QGroupBox):
         self.setupUi()
         self.buttonBox.accepted.connect(self.submit_button_clicked)
         self.search_book_btn.clicked.connect(self.search_book_btn_clicked)
-        self.update_note_btn.clicked.connect(self.clear_all_input_fields)
+        self.update_note_btn.clicked.connect(self.update_book_note)
         self.buttonBox.rejected.connect(self.clear_all_input_fields)
 
     def setupUi(self):
@@ -47,6 +48,20 @@ class SourceGroupBox(QGroupBox):
         gbox.addWidget(self.buttonBox)
 
         self.setLayout(gbox)
+
+    def update_book_note(self):
+        # update_book_note method can only be called if search_book btn
+        # has called prior
+        book_title = url_book.book_tab.title_input.text()
+        book_note = url_book.book_tab.note_input.toPlainText()
+
+        if not (url_book.book_tab.title_input.isEnabled()):
+            sql_conn = SqliteConnection()
+            book_id = sql_conn.search_book_id_by_title(book_title)
+            sql_conn.update_book_note_to_db(book_id, book_note)
+        else:
+            dialog_box = MessageBox('Please Search Book first !!!')
+            dialog_box.exec_()
 
     def clear_all_input_fields(self):
         q_box.question_textbox.setPlainText('')

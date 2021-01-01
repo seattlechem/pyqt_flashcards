@@ -4,19 +4,25 @@ from common.my_combo_box import ComboBox
 from db.db_script import SqliteConnection
 
 cb = None
+
+
 class SubjectComboBox(QWidget):
     def __init__(self, parent=None):
         super(SubjectComboBox, self).__init__(parent)
+        self.setupUI()
+        cb.currentIndexChanged.connect(self.selectionchange)
+        cb.popupAboutToBeShown.connect(self.add_subject_to_combobox)
+
+    def setupUI(self):
         layout = QHBoxLayout()
 
         global cb
         cb = ComboBox()
-        cb.popupAboutToBeShown.connect(self.add_subject_to_combobox)
 
         self.subject = []
-
-        cb.setCurrentText('Select .....')
-        cb.currentIndexChanged.connect(self.selectionchange)
+        cb.clear()
+        self.add_subject_to_combobox()
+        cb.setCurrentIndex(0)
 
         layout.addWidget(cb)
         self.setLayout(layout)

@@ -9,8 +9,8 @@ class SqliteConnection():
         self.conn = self.open_db('./db/flashcards.db')
 
     def open_db(self, db_file_path: str):
-        return sqlite3.connect(db_file_path, \
-            detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
+        return sqlite3.connect(db_file_path,
+                               detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
 
     def close_db(self, cur):
         if self.conn:
@@ -42,8 +42,8 @@ class SqliteConnection():
 
         self.post_sql_query(sql_stm)
 
-    def add_book_to_db(self, book_title: str, year: int, author: str, \
-        book_note=None):
+    def add_book_to_db(self, book_title: str, year: int, author: str,
+                       book_note=None):
 
         sql_stm = f"INSERT INTO source_book (book_title, year, author, \
             book_note) VALUES ('{book_title}', '{year}', '{author}', \
@@ -53,6 +53,11 @@ class SqliteConnection():
 
         # return id
         return row_id
+
+    def update_book_note_to_db(self, book_id: int, book_note: str):
+        sql_stm = f"UPDATE source_book SET book_note='{book_note}' \
+            WHERE book_id='{book_id}'"
+        self.post_sql_query(sql_stm)
 
     def search_book_id_by_title(self, title: str):
         sql_stm = f"SELECT book_id FROM source_book WHERE book_title='{title}'"

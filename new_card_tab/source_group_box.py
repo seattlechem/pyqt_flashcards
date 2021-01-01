@@ -18,7 +18,8 @@ class SourceGroupBox(QGroupBox):
         self.setupUi()
         self.buttonBox.accepted.connect(self.submit_button_clicked)
         self.search_book_btn.clicked.connect(self.search_book_btn_clicked)
-        self.update_note_btn.clicked.connect()
+        self.update_note_btn.clicked.connect(self.clear_all_input_fields)
+        self.buttonBox.rejected.connect(self.clear_all_input_fields)
 
     def setupUi(self):
         #self.subject_combo = SubjectComboBox()
@@ -50,7 +51,11 @@ class SourceGroupBox(QGroupBox):
     def clear_all_input_fields(self):
         q_box.question_textbox.setPlainText('')
         a_box.answer_textbox.setPlainText('')
-        s_com.cb.
+        s_combo.cb.setCurrentIndex(0)
+        url_book.book_tab.title_input.setText('')
+        url_book.book_tab.author_input.setText('')
+        url_book.book_tab.year_input.setText('')
+        url_book.book_tab.note_input.setPlainText('')
 
 
     def new_card_input_validation(self, question: str, answer: str, subject_id: int,

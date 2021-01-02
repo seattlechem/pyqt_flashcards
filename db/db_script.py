@@ -9,8 +9,8 @@ class SqliteConnection():
         self.conn = self.open_db('./db/flashcards.db')
 
     def open_db(self, db_file_path: str):
-        return sqlite3.connect(db_file_path,
-                               detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
+        return sqlite3.connect(db_file_path, \
+            detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
 
     def close_db(self, cur):
         if self.conn:
@@ -25,8 +25,6 @@ class SqliteConnection():
             cur = self.conn.cursor()
             cur.execute(sql_stm)
             res = cur.fetchall()
-
-        # self.close_db(cur)
         return res
 
     def post_sql_query(self, sql_stm: str):
@@ -51,7 +49,6 @@ class SqliteConnection():
 
         row_id = self.post_sql_query(sql_stm)
 
-        # return id
         return row_id
 
     def update_book_note_to_db(self, book_id: int, book_note: str):
@@ -73,11 +70,26 @@ class SqliteConnection():
         res = self.get_sql_query(sql_stm)[0]
         return res
 
-    def save_to_source_tb(self, book_id=None, url_id=None):
+    def save_source_to_tb(self, book_id=None, url_id=None):
         sql_stm = f"INSERT INTO source (book_id, url_id) \
             VALUES ('{book_id}', '{url_id}');"
         row_id = self.post_sql_query(sql_stm)
         return row_id
+
+    def search_url_id(self, url):
+        sql_stm = f"SELECT url_id FROM source_url WHERE url='{url}'"
+        url_id_list = self.get_sql_query(sql_stm)
+
+        url_id = None
+        if len(url_id_list) > 0:
+            url_id = url_id_list[0][0]
+        return url_id
+
+    def save_url(self, url, url_note=''):
+        sql_stm = f"INSERT INTO source_url (url, url_note) \
+            VALUES ('{url}', '{url_note}')"
+        url_id = self.post_sql_query(sql_stm)
+        return url_id
 
     def get_last_row_column_data(self, column_name: str, table_name: str):
         # open db

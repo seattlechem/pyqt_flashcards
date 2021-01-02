@@ -6,25 +6,27 @@ from .book_url_box.url_tab import URLTab
 
 book_tab = None
 url_tab = None
+book_url_widget = None
+
 class URLBookTab(QDialog):
     def __init__(self):
         super().__init__()
 
         self.setWindowTitle('Book & URL')
-
-        tab_widget = QTabWidget()
+        global book_url_widget
+        book_url_widget = QTabWidget()
 
         #TODO Book Tab
         global book_tab
         book_tab = BookTab()
-        tab_widget.addTab(book_tab, "Book")
+        book_url_widget.addTab(book_tab, "Book")
 
         #TODO URL Tab
         global url_tab
         url_tab = URLTab()
-        tab_widget.addTab(url_tab, "URL")
+        book_url_widget.addTab(url_tab, "URL")
 
         gbox = QGridLayout()
-        gbox.addWidget(tab_widget)
+        gbox.addWidget(book_url_widget)
         self.setLayout(gbox)
         # self.setFixedSize(320, 480)

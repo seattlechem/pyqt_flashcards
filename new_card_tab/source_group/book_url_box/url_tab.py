@@ -22,11 +22,17 @@ class URLTab(QWidget):
         # url: QLabel, QLineEdit
         self.url_label = QLabel("URL")
         self.url_input = QPlainTextEdit()
+        self.url_note_label = QLabel("Note")
+        self.url_note_input = QPlainTextEdit()
         self.url_input.setStyleSheet("background-color: rgb(128, 128, 128);")
-        self.url_input.setMaximumHeight(600)
+        self.url_input.setMaximumHeight(120)
+        self.url_note_input.setStyleSheet("background-color: rgb(128, 128, 128);")
+        self.url_note_input.setMaximumHeight(120)
 
 
         vbox = QVBoxLayout()
         vbox.addWidget(self.url_label)
         vbox.addWidget(self.url_input)
+        vbox.addWidget(self.url_note_label)
+        vbox.addWidget(self.url_note_input)
         self.setLayout(vbox)

@@ -36,10 +36,10 @@ class SourceGroupBox(QGroupBox):
         self.update_note_btn = QPushButton("Update Note")
         # self.buttonBox.addButton("Help", QtWidgets.QDialogButtonBox.HelpRole)
         self.buttonBox.addButton("Submit", QDialogButtonBox.AcceptRole)
-        self.buttonBox.addButton(self.search_book_btn, \
-            QDialogButtonBox.ActionRole)
-        self.buttonBox.addButton(self.update_note_btn, \
-            QDialogButtonBox.ActionRole)
+        self.buttonBox.addButton(self.search_book_btn,
+                                 QDialogButtonBox.ActionRole)
+        self.buttonBox.addButton(self.update_note_btn,
+                                 QDialogButtonBox.ActionRole)
         self.buttonBox.addButton("Cancel", QDialogButtonBox.RejectRole)
 
         gbox = QGridLayout()
@@ -58,7 +58,11 @@ class SourceGroupBox(QGroupBox):
         if not (url_book.book_tab.title_input.isEnabled()):
             sql_conn = SqliteConnection()
             book_id = sql_conn.search_book_id_by_title(book_title)
-            sql_conn.update_book_note_to_db(book_id, book_note)
+            success = sql_conn.update_book_note_to_db(book_id, book_note)
+
+            if success is None:
+                updated_dialog = MessageBox('Success: Updated')
+                updated_dialog.exec_()
         else:
             dialog_box = MessageBox('Please Search Book first !!!')
             dialog_box.exec_()
@@ -71,10 +75,12 @@ class SourceGroupBox(QGroupBox):
         url_book.book_tab.author_input.setText('')
         url_book.book_tab.year_input.setText('')
         url_book.book_tab.note_input.setPlainText('')
+        url_book.url_tab.url_input.setPlainText('')
+        url_book.url_tab.url_note_input.setPlainText('')
 
-
-    def new_card_input_validation(self, question: str, answer: str, subject_id: int,
-                                  book_title: str, book_author: str, book_year: str):
+    def new_card_input_validation(self, question: str, answer: str,
+                                  subject_id: int, book_title: str,
+                                  book_author: str, book_year: str):
         # check if all fields are provided
         if question != '' and answer != '':
             if subject_id != -1 and book_title != '':
@@ -83,12 +89,6 @@ class SourceGroupBox(QGroupBox):
         return False
 
     def search_book_btn_clicked(self):
-        #print("search book btn clicked")
-        # TODO
-        # add a logic to open a dialog where users can search for book
-        # in db by title or author
-        # if book exists users does not need to reenter the book info
-        #
         add_dialog = SearchBookDialog()
         add_dialog.exec_()
 
@@ -100,30 +100,60 @@ class SourceGroupBox(QGroupBox):
         book_author = url_book.book_tab.author_input.text()
         book_year = url_book.book_tab.year_input.text()
         book_note = url_book.book_tab.note_input.toPlainText()
-        book_id = None
-        url_id = None
+        url = url_book.url_tab.url_input.toPlainText()
+        url_note = url_book.url_tab.url_note_input.toPlainText()
 
-        # call validation method
-        if self.new_card_input_validation(question, answer, subject_id, \
-            book_title, book_author, book_year):
+        sql_conn = SqliteConnection()
+        now = datetime.datetime.now()
+        date_id = sql_conn.post_datetime(now, now)
+
+        if url_book.book_url_widget.currentIndex() == 0:
+            self.save_book_source_qa(question, answer, subject_id, book_title,
+                                     book_author, book_year, book_note,
+                                     date_id, sql_conn)
+        else:
+            self.save_url_source_qa(question, answer, url, url_note, date_id,
+                                    subject_id, sql_conn)
+
+    def save_url_source_qa(self, question, answer, url, url_note, date_id,
+                           subject_id, sql_conn):
+        if url != '':
+            url_id = sql_conn.search_url_id(url)
+
+            if url_id is None:
+                url_id = sql_conn.save_url(url, url_note)
+            source_id = sql_conn.save_source_to_tb(url_id)
+            sql_conn.post_question_answer_tb(question, answer, subject_id,
+                                             date_id, source_id)
+        # success
+        # message dialog box
+            success_msg = MessageBox('Success: Saved')
+            success_msg.exec_()
+            self.clear_all_input_fields()
+
+        else:
+            msg = MessageBox('URL information is missing')
+            msg.exec_()
+
+    def save_book_source_qa(self, question, answer, subject_id, book_title,
+                            book_author, book_year, book_note, date_id,
+                            sql_conn):
+
+        if self.new_card_input_validation(question, answer, subject_id,
+                                          book_title, book_author, book_year):
             # search if book is already saved
-            sql_conn = SqliteConnection()
             book_id = sql_conn.search_book_id_by_title(book_title)
             if book_id is None:
                 # save to source_book table
-                book_id = sql_conn.add_book_to_db(book_title, int(book_year), \
-                    book_author, book_note)
+                book_id = sql_conn.add_book_to_db(book_title, int(book_year),
+                                                  book_author, book_note)
+                source_id = sql_conn.save_source_to_tb(book_id)
 
-            # at this point book exists in source_book table
-            # save information to source table
-            source_id = sql_conn.save_to_source_tb(book_id, url_id)
-
-            # save into date table
-            now = datetime.datetime.now()
-            date_id = sql_conn.post_datetime(now, now)
-
-            # save question and answer information to question_answer table
-            # required info:
-            # question, answer, subject_id, date_id, source_id
-            sql_conn.post_question_answer_tb(question, answer, subject_id, \
-                date_id, source_id)
+            sql_conn.post_question_answer_tb(question, answer, subject_id,
+                                             date_id, source_id)
+            success_msg = MessageBox('Success: Saved')
+            success_msg.exec_()
+            self.clear_all_input_fields()
+        else:
+            msg = MessageBox('Please provide all required information!')
+            msg.exec_()

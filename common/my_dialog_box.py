@@ -1,5 +1,4 @@
 import sys
-import new_card_tab.source_group.book_url_box.book_tab as book
 from db.db_script import SqliteConnection
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QApplication, QLabel, QLineEdit, QDialogButtonBox, \

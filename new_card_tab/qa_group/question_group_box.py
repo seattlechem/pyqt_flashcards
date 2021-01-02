@@ -19,6 +19,7 @@ class QuestionGroupBox(MyGroupBox):
 
         global question_textbox
         question_textbox = QPlainTextEdit()
+        question_textbox.setStyleSheet("background-color: rgb(128, 128, 128);")
 
         vbox = QVBoxLayout()
         vbox.addWidget(question_label)

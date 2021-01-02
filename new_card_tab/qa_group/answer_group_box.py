@@ -13,6 +13,7 @@ class AnswerGroupBox(MyGroupBox):
 
         global answer_textbox
         answer_textbox = QPlainTextEdit()
+        answer_textbox.setStyleSheet("background-color: rgb(128, 128, 128);")
 
         vbox = QVBoxLayout()
         vbox.addWidget(answer_label)

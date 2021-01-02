@@ -1,5 +1,5 @@
 import sys
-import new_card_tab.source_group.book_url_box.book_tab as book
+import new_card_tab.source_group.url_book_tab_group_box as url_book
 from db.db_script import SqliteConnection
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QApplication, QLabel, QLineEdit, QDialogButtonBox, QGridLayout, \
@@ -52,8 +52,7 @@ class SearchBookDialog(QDialog):
             self.set_book_tab_text(book_title, book_author, str(book_year),
                                    book_note)
 
-            self.set_qlineedit_enable(
-                book_title, book_author, book_year, False)
+            self.set_qlineedit_enable(False)
 
         else:
             msg_box = MessageBox('No book is found !!!')
@@ -66,16 +65,15 @@ class SearchBookDialog(QDialog):
 
     def set_book_tab_text(self, book_title, book_author, book_year, book_note):
 
-        book.book_title.setText(book_title)
-        book.book_author.setText(book_author)
-        book.book_year.setText(book_year)
-        book.book_note.setPlainText(book_note)
+        url_book.book_tab.title_input.setText(book_title)
+        url_book.book_tab.author_input.setText(book_author)
+        url_book.book_tab.year_input.setText(book_year)
+        url_book.book_tab.note_input.setPlainText(book_note)
 
-    def set_qlineedit_enable(self, book_title, book_author, book_year,
-                             enable=True):
-        book.book_title.setEnabled(enable)
-        book.book_author.setEnabled(enable)
-        book.book_year.setEnabled(enable)
+    def set_qlineedit_enable(self, enable=True):
+        url_book.book_tab.title_input.setEnabled(enable)
+        url_book.book_tab.author_input.setEnabled(enable)
+        url_book.book_tab.year_input.setEnabled(enable)
 
 
 if __name__ == '__main__':

@@ -122,7 +122,7 @@ class SourceGroupBox(QGroupBox):
 
             if url_id is None:
                 url_id = sql_conn.save_url(url, url_note)
-            source_id = sql_conn.save_source_to_tb(url_id)
+            source_id = sql_conn.save_source_to_tb(None, url_id)
             sql_conn.post_question_answer_tb(question, answer, subject_id,
                                              date_id, source_id)
         # success
@@ -147,7 +147,7 @@ class SourceGroupBox(QGroupBox):
                 # save to source_book table
                 book_id = sql_conn.add_book_to_db(book_title, int(book_year),
                                                   book_author, book_note)
-                source_id = sql_conn.save_source_to_tb(book_id)
+                source_id = sql_conn.save_source_to_tb(book_id, None)
 
             sql_conn.post_question_answer_tb(question, answer, subject_id,
                                              date_id, source_id)

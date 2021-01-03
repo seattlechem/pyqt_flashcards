@@ -1,13 +1,11 @@
 import sys
 import flash_cards_resource
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QAction, QDialog, QTabWidget, \
-    QVBoxLayout, QDialogButtonBox, QLabel, QPlainTextEdit, QGroupBox, QHBoxLayout, \
-    QPlainTextEdit, QLabel, QListWidget, QPushButton, QComboBox, QDialog
+from PyQt5.QtWidgets import QApplication, QHBoxLayout, QVBoxLayout, \
+    QPlainTextEdit, QComboBox, QLabel, QPushButton, QWidget, QFormLayout
 
 from PyQt5.QtGui import QIcon
 from db.db_script import SqliteConnection
-from .test_ui import TestUi
 
 
 class TestTab(QWidget):
@@ -17,76 +15,75 @@ class TestTab(QWidget):
         self.show()
 
     def setupUi(self):
-        self.pushButton = QtWidgets.QPushButton()
-        self.pushButton.setGeometry(QtCore.QRect(530, 120, 75, 23))
-        self.pushButton.setObjectName("pushButton")
-        self.pushButton_2 = QtWidgets.QPushButton()
-        self.pushButton_2.setGeometry(QtCore.QRect(530, 200, 75, 23))
-        self.pushButton_2.setObjectName("pushButton_2")
-        self.comboBox = QtWidgets.QComboBox()
-        self.comboBox.setGeometry(QtCore.QRect(160, 390, 69, 22))
-        self.comboBox.setObjectName("comboBox")
-        self.pushButton_3 = QtWidgets.QPushButton()
-        self.pushButton_3.setGeometry(QtCore.QRect(260, 390, 75, 23))
-        self.pushButton_3.setObjectName("pushButton_3")
-        self.label = QtWidgets.QLabel()
-        self.label.setGeometry(QtCore.QRect(476, 20, 101, 20))
-        self.label.setObjectName("label")
-        self.label_2 = QtWidgets.QLabel()
-        self.label_2.setGeometry(QtCore.QRect(20, 20, 81, 16))
-        self.label_2.setObjectName("label_2")
-        self.plainTextEdit = QtWidgets.QPlainTextEdit()
-        self.plainTextEdit.setGeometry(QtCore.QRect(50, 60, 421, 291))
-        self.plainTextEdit.setObjectName("plainTextEdit")
-        self.pushButton_4 = QtWidgets.QPushButton()
-        self.pushButton_4.setGeometry(QtCore.QRect(530, 330, 75, 23))
-        self.pushButton_4.setObjectName("pushButton_4")
-        self.comboBox_2 = QtWidgets.QComboBox()
-        self.comboBox_2.setGeometry(QtCore.QRect(50, 390, 69, 22))
-        self.comboBox_2.setObjectName("comboBox_2")
-        self.label_3 = QtWidgets.QLabel()
-        self.label_3.setGeometry(QtCore.QRect(180, 20, 71, 16))
-        self.label_3.setObjectName("label_3")
-        self.label_4 = QtWidgets.QLabel()
-        self.label_4.setGeometry(QtCore.QRect(110, 20, 47, 13))
-        self.label_4.setObjectName("label_4")
-        self.label_5 = QtWidgets.QLabel()
-        self.label_5.setGeometry(QtCore.QRect(250, 20, 47, 13))
-        self.label_5.setObjectName("label_5")
+        top_hbox = QHBoxLayout()
+        self.top_menu_hbox_setup(top_hbox)
+        sub_hbox = QHBoxLayout()
+        self.sub_hbox_setup(sub_hbox)
+        btm_hbox = QHBoxLayout()
+        self.bottom_menu_hbox_setup(btm_hbox)
 
-        hbox = QHBoxLayout()
-        componenets = [
-            self.pushButton,
-            self.pushButton_2,
-            self.pushButton_3,
-            self.pushButton_4,
-            self.comboBox,
-            self.comboBox_2,
-            self.label,
-            self.label_2,
-            self.label_3,
-            self.label_4,
-            self.label_5,
-            self.plainTextEdit
-        ]
+        vbox = QVBoxLayout()
+        vbox.setSpacing(40)
+        vbox.addLayout(top_hbox)
+        vbox.addLayout(sub_hbox)
+        vbox.addLayout(btm_hbox)
 
-        self.add_widgets_to_layout(hbox, componenets)
+        self.setLayout(vbox)
 
-        self.setLayout(hbox)
+    def sub_hbox_setup(self, hbox: QHBoxLayout):
+        self.qabox = QPlainTextEdit()
+        self.qabox.setStyleSheet("background-color: rgb(128, 128, 128);")
+        self.spacer = QLabel()
 
-        self.retranslateUi()
+        qv_buttons = QVBoxLayout()
+        self.pass_btn = QPushButton()
+        self.pass_btn.setStyleSheet("background-image: \
+            url(images/check_mark_90.png);height:90px;width:90px;")
+        self.fail_btn = QPushButton()
+        self.fail_btn.setStyleSheet("background-image: \
+            url(images/fail.png);height:90px;width:90px;")
+        self.flip_btn = QPushButton()
+        self.flip_btn.setStyleSheet("background-image: \
+            url(images/flip.png);height:90px;width:90px;")
 
-    def add_widgets_to_layout(self, layout_box, components: list):
-        for item in components:
-            layout_box.addWidget(item)
 
-    def retranslateUi(self):
-        self.pushButton.setText("Pass")
-        self.pushButton_2.setText("Fail")
-        self.pushButton_3.setText("Start")
-        self.label.setText("URL")
-        self.label_2.setText("Last Seen Date")
-        self.pushButton_4.setText("Flip")
-        self.label_3.setText("Pass Rate")
-        self.label_4.setText("TextLabel")
-        self.label_5.setText("TextLabel")
+        qv_buttons.addWidget(self.pass_btn)
+        qv_buttons.addStretch(1)
+        qv_buttons.addWidget(self.fail_btn)
+        qv_buttons.addStretch(1)
+        qv_buttons.addWidget(self.flip_btn)
+
+        hbox.setSpacing(50)
+        hbox.addWidget(self.qabox)
+        hbox.addLayout(qv_buttons)
+
+    def top_menu_hbox_setup(self, hbox: QHBoxLayout):
+        # top menu: QLabels (last seen, url, pass rate)
+        self.last_seen_label = QLabel()
+        self.last_seen_label.setText('Last Seen')
+        self.last_seen_data = QLabel()
+
+        self.pass_rate_label = QLabel()
+        self.pass_rate_label.setText('Pass Rate')
+        self.pass_rate_data = QLabel()
+
+        self.url = QLabel()
+
+        hbox.addWidget(self.last_seen_label)
+        hbox.addWidget(self.last_seen_data)
+        hbox.addWidget(self.pass_rate_label)
+        hbox.addWidget(self.pass_rate_data)
+        hbox.addWidget(self.url)
+        # QPlainTextEdit, vbox (pass, fail, flip) --> another hbox
+        # bottom menu: comboBox (subject), comboBox (logic), button (start)
+
+    def bottom_menu_hbox_setup(self, hbox: QHBoxLayout):
+        # comboBox
+        self.test_subject_cb = QComboBox()
+        self.test_logic_cb = QComboBox()
+        self.start_btn = QPushButton()
+        self.start_btn.setText('Start')
+
+        hbox.addWidget(self.test_subject_cb)
+        hbox.addWidget(self.test_logic_cb)
+        hbox.addWidget(self.start_btn)

@@ -4,15 +4,20 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QHBoxLayout, QVBoxLayout, \
     QPlainTextEdit, QComboBox, QLabel, QPushButton, QWidget, QFormLayout
 
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QFont
 from db.db_script import SqliteConnection
+from common.my_qlabel import MyQLabel
+from common.my_combo_box import ComboBox
 
 
 class TestTab(QWidget):
     def __init__(self):
         super().__init__()
         self.setupUi()
-        self.show()
+        # self.test_subject_cb.popupAboutToBeShown()
+        self.test_subject_cb.popupAboutToBeShown.connect(\
+            self.test_subject_cb.add_subject_to_combobox)
+        # self.show()
 
     def setupUi(self):
         top_hbox = QHBoxLayout()
@@ -29,22 +34,22 @@ class TestTab(QWidget):
         vbox.addLayout(btm_hbox)
 
         self.setLayout(vbox)
+        self.test_subject_cb.add_subject_to_combobox()
 
     def sub_hbox_setup(self, hbox: QHBoxLayout):
         self.qabox = QPlainTextEdit()
         self.qabox.setStyleSheet("background-color: rgb(128, 128, 128);")
-        self.spacer = QLabel()
 
         qv_buttons = QVBoxLayout()
         self.pass_btn = QPushButton()
         self.pass_btn.setStyleSheet("background-image: \
-            url(images/check_mark_90.png);height:90px;width:90px;")
+            url(images/pass.png);height:50px;width:50px;")
         self.fail_btn = QPushButton()
         self.fail_btn.setStyleSheet("background-image: \
-            url(images/fail.png);height:90px;width:90px;")
+            url(images/fail.png);height:50px;width:50px;")
         self.flip_btn = QPushButton()
         self.flip_btn.setStyleSheet("background-image: \
-            url(images/flip.png);height:90px;width:90px;")
+            url(images/flip.png);height:50px;width:50px;")
 
 
         qv_buttons.addWidget(self.pass_btn)
@@ -59,15 +64,15 @@ class TestTab(QWidget):
 
     def top_menu_hbox_setup(self, hbox: QHBoxLayout):
         # top menu: QLabels (last seen, url, pass rate)
-        self.last_seen_label = QLabel()
+        self.last_seen_label = MyQLabel()
         self.last_seen_label.setText('Last Seen')
-        self.last_seen_data = QLabel()
+        self.last_seen_data = MyQLabel()
 
-        self.pass_rate_label = QLabel()
+        self.pass_rate_label = MyQLabel()
         self.pass_rate_label.setText('Pass Rate')
-        self.pass_rate_data = QLabel()
+        self.pass_rate_data = MyQLabel()
 
-        self.url = QLabel()
+        self.url = MyQLabel()
 
         hbox.addWidget(self.last_seen_label)
         hbox.addWidget(self.last_seen_data)
@@ -79,8 +84,8 @@ class TestTab(QWidget):
 
     def bottom_menu_hbox_setup(self, hbox: QHBoxLayout):
         # comboBox
-        self.test_subject_cb = QComboBox()
-        self.test_logic_cb = QComboBox()
+        self.test_subject_cb = ComboBox()
+        self.test_logic_cb = ComboBox()
         self.start_btn = QPushButton()
         self.start_btn.setText('Start')
 

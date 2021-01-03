@@ -9,11 +9,22 @@ class ComboBox(QtWidgets.QComboBox):
         super(ComboBox, self).showPopup()
 
     def add_subject_to_combobox(self):
-            # subject is list of tuple
-            # i.e. [('Chemistry',)]
-            sql_conn = SqliteConnection()
-            subject = sql_conn.get_all_subjects()
+        # subject is list of tuple
+        # i.e. [('Chemistry',)]
+        sql_conn = SqliteConnection()
+        subject = sql_conn.get_all_subjects()
 
-            self.clear()
-            for subj in subject:
-                self.addItem(subj[0])
+        self.clear()
+        for subj in subject:
+            self.addItem(subj[0])
+
+    def add_logic_to_combobox(self):
+        logics = [
+            'Select .....',
+            'Test all cards in the subject'
+
+        ]
+
+        self.clear()
+        for logic in logics:
+            self.addItem(logic)

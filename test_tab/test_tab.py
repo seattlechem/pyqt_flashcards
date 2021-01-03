@@ -17,6 +17,9 @@ class TestTab(QWidget):
         # self.test_subject_cb.popupAboutToBeShown()
         self.test_subject_cb.popupAboutToBeShown.connect(\
             self.test_subject_cb.add_subject_to_combobox)
+
+        self.test_logic_cb.popupAboutToBeShown.connect( \
+            self.test_logic_cb.add_logic_to_combobox)
         # self.show()
 
     def setupUi(self):
@@ -35,6 +38,7 @@ class TestTab(QWidget):
 
         self.setLayout(vbox)
         self.test_subject_cb.add_subject_to_combobox()
+        self.test_logic_cb.add_logic_to_combobox()
 
     def sub_hbox_setup(self, hbox: QHBoxLayout):
         self.qabox = QPlainTextEdit()

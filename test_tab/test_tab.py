@@ -2,12 +2,14 @@ import sys
 import flash_cards_resource
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QHBoxLayout, QVBoxLayout, \
-    QPlainTextEdit, QComboBox, QLabel, QPushButton, QWidget, QFormLayout
+    QPlainTextEdit, QComboBox, QLabel, QPushButton, QWidget, QFormLayout, qApp
 
 from PyQt5.QtGui import QIcon, QFont
 from db.db_script import SqliteConnection
 from common.my_qlabel import MyQLabel
 from common.my_combo_box import ComboBox
+from db.db_script import SqliteConnection
+from common.my_dialog_box import MessageBox
 
 
 class TestTab(QWidget):
@@ -20,7 +22,21 @@ class TestTab(QWidget):
 
         self.test_logic_cb.popupAboutToBeShown.connect( \
             self.test_logic_cb.add_logic_to_combobox)
-        # self.show()
+
+        self.current_card = None
+        self.flip = False
+
+        # start button
+        self.start_btn.clicked.connect(self.start_test)
+
+        # pass button
+        self.pass_btn.clicked.connect(self.pass_btn_clicked)
+
+        # fail button
+        self.fail_btn.clicked.connect(self.fail_btn_clicked)
+
+        # flip button
+        self.flip_btn.clicked.connect(self.show_answer)
 
     def setupUi(self):
         top_hbox = QHBoxLayout()
@@ -96,3 +112,77 @@ class TestTab(QWidget):
         hbox.addWidget(self.test_subject_cb)
         hbox.addWidget(self.test_logic_cb)
         hbox.addWidget(self.start_btn)
+
+    def start_test(self):
+        # get subject
+        self.start_btn.setDisabled(True)
+        subject_id = self.test_subject_cb.currentIndex()
+        logic = self.test_logic_cb.currentText()
+
+        sql_stm_dic = {
+            'Test all cards in the subject': \
+                f"SELECT * FROM question_answer WHERE subject_id='{subject_id}'"
+        }
+
+
+        # get cards in list
+        sql_conn = SqliteConnection()
+        # res is in list containing tuple (card_id, question, answer, ... etc)
+        cards = sql_conn.get_sql_query(sql_stm_dic[logic])
+
+        for card in cards:
+            while not self.flip:
+                self.current_card = self.create_card_dict(card)
+                self.show_card()
+                self._pass_fail_btn_disabled(True)
+                self.flip_btn.setDisabled(False)
+                qApp.processEvents()
+            while self.flip:
+                self.flip_btn.setDisabled(True)
+                self._pass_fail_btn_disabled(False)
+                qApp.processEvents()
+        end_message = MessageBox('End of Test')
+        end_message.exec_()
+        self._clear()
+            # pass or fail button
+            # flip button
+
+    def create_card_dict(self, card: tuple):
+        card_dict = {}
+
+        card_dict['card_id'] = card[0]
+        card_dict['question'] = card[1]
+        card_dict['answer'] = card[2]
+        card_dict['subject_id'] = card[3]
+        card_dict['date_id'] = card[4]
+        card_dict['source_id'] = card[5]
+        card_dict['total_test_times'] = card[6]
+        card_dict['total_fail_times'] = card[7]
+
+        return card_dict
+
+    def show_answer(self):
+        self.flip = True
+        self.qabox.setPlainText(self.current_card['answer'])
+
+    def _clear(self):
+        self.flip = False
+        self.qabox.setPlainText('')
+        self.test_subject_cb.setCurrentIndex(0)
+        self.test_logic_cb.setCurrentIndex(0)
+        self.start_btn.setDisabled(False)
+
+    def _pass_fail_btn_disabled(self, answer: bool):
+        self.pass_btn.setDisabled(answer)
+        self.fail_btn.setDisabled(answer)
+
+    def pass_btn_clicked(self):
+        print('pass')
+        self.flip = False
+
+    def fail_btn_clicked(self):
+        print('fail')
+        self.flip = False
+
+    def show_card(self):
+        self.qabox.setPlainText(self.current_card['question'])

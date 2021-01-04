@@ -22,6 +22,7 @@ CREATE TABLE source_url
 (
   url_id INTEGER NOT NULL,
   url    TEXT    NOT NULL,
+  url_note TEXT Null,
   PRIMARY KEY (url_id)
 );
 
@@ -57,4 +58,3 @@ CREATE TABLE source
   FOREIGN KEY (book_id) REFERENCES source_book (book_id),
   FOREIGN KEY (url_id) REFERENCES source_url (url_id)
 );
-

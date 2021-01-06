@@ -9,8 +9,7 @@ class SqliteConnection():
         self.conn = self.open_db('./db/flashcards.db')
 
     def open_db(self, db_file_path: str):
-        return sqlite3.connect(db_file_path, \
-            detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
+        return sqlite3.connect(db_file_path)
 
     def close_db(self, cur):
         if self.conn:
@@ -117,17 +116,21 @@ class SqliteConnection():
         res = self.post_sql_query(sql_stm)
         return res
 
-    def get_datetime(self, date_id: int):
-        sql_stm = f"SELECT created_date from date where date_id='{date_id}'"
+    def get_date_info(self, date_id: int):
+        sql_stm = f"SELECT * FROM date WHERE date_id={date_id}"
         res = self.get_sql_query(sql_stm)
         return res
 
     def post_question_answer_tb(self, question: str, answer: str,
-                                subject_id: int, date_id: int, source_id: int):
+                                subject_id: int, date_id: int, source_id: int, \
+                                    total_test_times: int,
+                                    total_fail_times: int):
         sql_stm = f"INSERT INTO question_answer (question, answer, subject_id,\
-            date_id, source_id) VALUES ('{question}', '{answer}', \
-                '{subject_id}', '{date_id}', '{source_id}')"
-        res = self.post_sql_query(sql_stm)
+            date_id, source_id, total_test_times, total_fail_times) \
+                VALUES ('{question}', '{answer}', \
+                '{subject_id}', '{date_id}', '{source_id}', \
+                    '{total_test_times}', '{total_fail_times}')"
+        self.post_sql_query(sql_stm)
 
 
 if __name__ == '__main__':

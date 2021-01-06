@@ -2,10 +2,10 @@
 CREATE TABLE date
 (
   date_id        INTEGER  NOT NULL,
-  created_date   datetime NOT NULL,
-  modified_date  datetime NOT NULL,
-  last_seen_date datetime NULL    ,
-  last_fail_date datetime NULL    ,
+  created_date   DATE NOT NULL,
+  modified_date  DATE NOT NULL,
+  last_seen_date DATE NULL    ,
+  last_fail_date DATE NULL    ,
   PRIMARY KEY (date_id)
 );
 

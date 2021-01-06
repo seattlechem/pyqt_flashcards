@@ -124,7 +124,7 @@ class SourceGroupBox(QGroupBox):
                 url_id = sql_conn.save_url(url, url_note)
             source_id = sql_conn.save_source_to_tb(None, url_id)
             sql_conn.post_question_answer_tb(question, answer, subject_id,
-                                             date_id, source_id)
+                                             date_id, source_id, 0, 0)
         # success
         # message dialog box
             success_msg = MessageBox('Success: Saved')

@@ -1,4 +1,5 @@
 import sys
+import datetime
 import flash_cards_resource
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QHBoxLayout, QVBoxLayout, \
@@ -8,7 +9,6 @@ from PyQt5.QtGui import QIcon, QFont
 from db.db_script import SqliteConnection
 from common.my_qlabel import MyQLabel
 from common.my_combo_box import ComboBox
-from db.db_script import SqliteConnection
 from common.my_dialog_box import MessageBox
 
 
@@ -17,10 +17,10 @@ class TestTab(QWidget):
         super().__init__()
         self.setupUi()
         # self.test_subject_cb.popupAboutToBeShown()
-        self.test_subject_cb.popupAboutToBeShown.connect(\
+        self.test_subject_cb.popupAboutToBeShown.connect(
             self.test_subject_cb.add_subject_to_combobox)
 
-        self.test_logic_cb.popupAboutToBeShown.connect( \
+        self.test_logic_cb.popupAboutToBeShown.connect(
             self.test_logic_cb.add_logic_to_combobox)
 
         self.current_card = None
@@ -71,7 +71,6 @@ class TestTab(QWidget):
         self.flip_btn.setStyleSheet("background-image: \
             url(images/flip.png);height:50px;width:50px;")
 
-
         qv_buttons.addWidget(self.pass_btn)
         qv_buttons.addStretch(1)
         qv_buttons.addWidget(self.fail_btn)
@@ -120,10 +119,9 @@ class TestTab(QWidget):
         logic = self.test_logic_cb.currentText()
 
         sql_stm_dic = {
-            'Test all cards in the subject': \
-                f"SELECT * FROM question_answer WHERE subject_id='{subject_id}'"
+            'Test all cards in the subject':
+            f"SELECT * FROM question_answer WHERE subject_id='{subject_id}'"
         }
-
 
         # get cards in list
         sql_conn = SqliteConnection()
@@ -134,6 +132,7 @@ class TestTab(QWidget):
             while not self.flip:
                 self.current_card = self.create_card_dict(card)
                 self.show_card()
+                self.display_labels(sql_conn)
                 self._pass_fail_btn_disabled(True)
                 self.flip_btn.setDisabled(False)
                 qApp.processEvents()
@@ -144,8 +143,8 @@ class TestTab(QWidget):
         end_message = MessageBox('End of Test')
         end_message.exec_()
         self._clear()
-            # pass or fail button
-            # flip button
+        # pass or fail button
+        # flip button
 
     def create_card_dict(self, card: tuple):
         card_dict = {}
@@ -179,10 +178,34 @@ class TestTab(QWidget):
     def pass_btn_clicked(self):
         print('pass')
         self.flip = False
+        sql_conn = SqliteConnection()
+        self.increase_total_times(self.current_card['card_id'], sql_conn)
+        now = datetime.datetime.now()
+        self.update_last_seen_date(self.current_card['date_id'], now, sql_conn)
+
+    def increase_total_times(self, card_id: int, sql_conn: SqliteConnection):
+        sql_stm = f"UPDATE question_answer SET total_test_times=\
+            total_test_times + 1 WHERE card_id='{card_id}'"
+        sql_conn.post_sql_query(sql_stm)
+
+    def update_last_seen_date(self, date_id: int, now: datetime,
+                              sql_conn: SqliteConnection):
+        sql_stm = f"UPDATE date SET last_seen_date='{now}' \
+            WHERE date_id='{date_id}'"
+        sql_conn.post_sql_query(sql_stm)
 
     def fail_btn_clicked(self):
         print('fail')
         self.flip = False
+
+    def display_labels(self, sql_conn: SqliteConnection):
+        date_info = sql_conn.get_date_info(self.current_card['date_id'])
+        if date_info[0][3] == 'None':
+            last_seen = 'N/A'
+        else:
+            last_seen = datetime.datetime.strptime(date_info[0][3],
+                                                   '%Y-%m-%d %H:%M:%S.%f')
+        self.last_seen_data.setText(last_seen.date().strftime('%m/%d/%Y'))
 
     def show_card(self):
         self.qabox.setPlainText(self.current_card['question'])

@@ -5,6 +5,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QApplication, QLabel, QLineEdit, QDialogButtonBox, QGridLayout, \
     QDialog
 from common.my_dialog_box import MessageBox
+from common.cust_qlineedit import CustQLineEdit
 
 
 class SearchBookDialog(QDialog):
@@ -18,7 +19,7 @@ class SearchBookDialog(QDialog):
     def setupUi(self):
         self.setWindowTitle('Add New Subject')
         self.book_title = QLabel("Book Title")
-        self.book_title_input = QLineEdit()
+        self.book_title_input = CustQLineEdit()
         self.buttonBox = QDialogButtonBox()
         self.buttonBox.addButton("Search", QDialogButtonBox.AcceptRole)
         self.buttonBox.addButton("Cancel", QDialogButtonBox.RejectRole)

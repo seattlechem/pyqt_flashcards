@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QAction, QDialog
 
 from PyQt5.QtGui import QIcon
 from common.my_qplaintextedit import MyQPlainTextEdit
+from common.cust_qlineedit import CustQLineEdit
 #from .search_book_dialog import SearchBookDialog
 # from db.db_script import SqliteConnection
 # from .qa_group_box import QAGroupBox
@@ -22,15 +23,15 @@ class BookTab(QWidget):
 
         # title: QLabel, QLineEdit
         self.title_label = QLabel("Title")
-        self.title_input = QLineEdit()
+        self.title_input = CustQLineEdit()
 
         # author
         self.author_label = QLabel("Author")
-        self.author_input = QLineEdit()
+        self.author_input = CustQLineEdit()
 
         # year
         self.year_label = QLabel("Year")
-        self.year_input = QLineEdit()
+        self.year_input = CustQLineEdit()
 
         # note QPlainTextEdit
         self.note_label = QLabel("Note")

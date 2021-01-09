@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QApplication, QLabel, QLineEdit, QDialogButtonBox, Q
     QDialog
 from PyQt5.QtGui import QIcon
 from db.db_script import SqliteConnection
+from common.cust_qlineedit import CustQLineEdit
 
 # sys.path.append('../')
 
@@ -18,7 +19,7 @@ class AddNewSubjectDialog(QDialog):
     def setupUi(self):
         self.setWindowTitle('Add New Subject')
         self.subject_name = QLabel()
-        self.subject_input = QLineEdit()
+        self.subject_input = CustQLineEdit()
         self.subject_name.setText("Subject Name")
         self.buttonBox = QDialogButtonBox()
         self.buttonBox.addButton("Help", QDialogButtonBox.HelpRole)
@@ -40,10 +41,10 @@ class AddNewSubjectDialog(QDialog):
         self.text = self.subject_input.text()
         sql_conn = SqliteConnection()
 
-        #TODO
+        # TODO
         # Find out what was the last id, so that id can be assigned
-        subj_id = sql_conn.get_last_row_column_data('subject_id', \
-            'subject_type')[0][0] + 1
+        subj_id = sql_conn.get_last_row_column_data('subject_id',
+                                                    'subject_type')[0][0] + 1
 
         sql_conn.add_subject_to_db(self.text)
 

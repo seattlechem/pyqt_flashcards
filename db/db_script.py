@@ -75,6 +75,11 @@ class SqliteConnection():
         row_id = self.post_sql_query(sql_stm)
         return row_id
 
+    def get_source_id(self, url_id: int):
+        sql_stm = f"SELECT source_id FROM source WHERE url_id='{url_id}"
+        source_id = self.get_sql_query(sql_stm)[0][0]
+        return source_id
+
     def search_url_id(self, url):
         sql_stm = f"SELECT url_id FROM source_url WHERE url='{url}'"
         url_id_list = self.get_sql_query(sql_stm)

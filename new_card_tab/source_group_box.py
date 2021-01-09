@@ -94,7 +94,8 @@ class SourceGroupBox(QGroupBox):
 
     def submit_button_clicked(self):
         question = q_box.question_textbox.toPlainText()
-        answer = a_box.answer_textbox.toPlainText()
+        answer = a_box.answer_textbox.toPlainText().replace("'", "''").\
+            replace('"', '""')
         subject_id = s_combo.cb.currentIndex()
         book_title = url_book.book_tab.title_input.text()
         book_author = url_book.book_tab.author_input.text()
@@ -122,7 +123,9 @@ class SourceGroupBox(QGroupBox):
 
             if url_id is None:
                 url_id = sql_conn.save_url(url, url_note)
-            source_id = sql_conn.save_source_to_tb(None, url_id)
+                source_id = sql_conn.save_source_to_tb(None, url_id)
+            else:
+                source_id = sql_conn.get_source_id(url_id)
             sql_conn.post_question_answer_tb(question, answer, subject_id,
                                              date_id, source_id, 0, 0)
         # success

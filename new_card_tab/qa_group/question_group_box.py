@@ -8,6 +8,7 @@ from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QAction, QDialog
 from PyQt5.QtGui import QIcon
 from db.db_script import SqliteConnection
 from common.my_group_box import MyGroupBox
+from common.my_qplaintextedit import MyQPlainTextEdit
 
 question_textbox = None
 class QuestionGroupBox(MyGroupBox):
@@ -18,8 +19,7 @@ class QuestionGroupBox(MyGroupBox):
         question_label.setText("Question")
 
         global question_textbox
-        question_textbox = QPlainTextEdit()
-        question_textbox.setStyleSheet("background-color: rgb(128, 128, 128);")
+        question_textbox = MyQPlainTextEdit()
 
         vbox = QVBoxLayout()
         vbox.addWidget(question_label)

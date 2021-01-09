@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QAction, QDialog
     QListWidget, QPushButton, QComboBox, QDialog, QLineEdit, QGridLayout
 
 from PyQt5.QtGui import QIcon
+from common.my_qplaintextedit import MyQPlainTextEdit
 #from .search_book_dialog import SearchBookDialog
 # from db.db_script import SqliteConnection
 # from .qa_group_box import QAGroupBox
@@ -33,8 +34,7 @@ class BookTab(QWidget):
 
         # note QPlainTextEdit
         self.note_label = QLabel("Note")
-        self.note_input = QPlainTextEdit()
-        self.note_input.setStyleSheet("background-color: rgb(128, 128, 128);")
+        self.note_input = MyQPlainTextEdit()
         self.note_input.setMaximumHeight(120)
 
         # TO btn_search_book

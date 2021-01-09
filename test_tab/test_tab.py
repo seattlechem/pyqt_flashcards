@@ -10,6 +10,7 @@ from db.db_script import SqliteConnection
 from common.my_qlabel import MyQLabel
 from common.my_combo_box import ComboBox
 from common.my_dialog_box import MessageBox
+from common.my_qplaintextedit import MyQPlainTextEdit
 
 
 class TestTab(QWidget):
@@ -57,8 +58,7 @@ class TestTab(QWidget):
         self.test_logic_cb.add_logic_to_combobox()
 
     def sub_hbox_setup(self, hbox: QHBoxLayout):
-        self.qabox = QPlainTextEdit()
-        self.qabox.setStyleSheet("background-color: rgb(128, 128, 128);")
+        self.qabox = MyQPlainTextEdit()
 
         qv_buttons = QVBoxLayout()
         self.pass_btn = QPushButton()

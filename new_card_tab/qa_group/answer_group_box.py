@@ -4,6 +4,7 @@ from PyQt5 import QtCore, QtGui
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QLabel, QPlainTextEdit, QVBoxLayout
 from common.my_group_box import MyGroupBox
+from common.my_qplaintextedit import MyQPlainTextEdit
 
 
 answer_textbox = None
@@ -16,14 +17,8 @@ class AnswerGroupBox(MyGroupBox):
         answer_label.setText("Answer  ")
 
         global answer_textbox
-        answer_textbox = QPlainTextEdit()
-        answer_textbox.setStyleSheet("color: rgb(242, 242, 242);\
-            background-color: rgb(128, 128, 128);")
-        answer_textbox.setStyleSheet(
-            """QPlainTextEdit::focus {background-color: blue;}""")
-        answer_textbox.setCursorWidth(2)
-        answer_textbox.setFont(QFont('Consolas', 13))
-        answer_textbox.viewport().setCursor(QtCore.Qt.ArrowCursor)
+        answer_textbox = MyQPlainTextEdit()
+
         vbox = QVBoxLayout()
         vbox.addWidget(answer_label)
         vbox.addWidget(answer_textbox)

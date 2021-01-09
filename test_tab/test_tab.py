@@ -59,6 +59,7 @@ class TestTab(QWidget):
 
     def sub_hbox_setup(self, hbox: QHBoxLayout):
         self.qabox = MyQPlainTextEdit()
+        self.qabox.setReadOnly(True)
 
         qv_buttons = QVBoxLayout()
         self.pass_btn = QPushButton()

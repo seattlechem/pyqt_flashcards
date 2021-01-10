@@ -31,16 +31,6 @@ class SubjectComboBox(QWidget):
     def show_pop_up(self):
         self.refresh_combobox.emit()
 
-    # def add_subject_to_combobox(self):
-    #     # subject is list of tuple
-    #     # i.e. [('Chemistry',)]
-    #     sql_conn = SqliteConnection()
-    #     subject = sql_conn.get_all_subjects()
-
-    #     cb.clear()
-    #     for subj in subject:
-    #         cb.addItem(subj[0])
-
     def trigger_add_new_subject(self):
         if cb.currentText() == 'Add New ...':
             print("hello")

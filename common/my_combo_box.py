@@ -15,6 +15,7 @@ class ComboBox(QtWidgets.QComboBox):
         subject = sql_conn.get_all_subjects()
 
         self.clear()
+        self.addItem('Select .....')
         for subj in subject:
             self.addItem(subj[0])
 

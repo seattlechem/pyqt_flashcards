@@ -5,4 +5,6 @@
 4. if title and author can be found in the source_book table
 5. Do not insert it, instead return the book_id, just update note
 6. push button (book search)
+7. add "Select ....." into combobox option as a default before connecting to \
+db
 7.

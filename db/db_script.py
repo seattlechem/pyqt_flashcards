@@ -104,6 +104,9 @@ class SqliteConnection():
 
         res = self.get_sql_query(sql_stm)
 
+        if len(res) == 0:
+            res = [(0, '')]
+
         return res
 
     def get_all_subjects(self):

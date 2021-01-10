@@ -41,11 +41,6 @@ class AddNewSubjectDialog(QDialog):
         self.text = self.subject_input.text()
         sql_conn = SqliteConnection()
 
-        # TODO
-        # Find out what was the last id, so that id can be assigned
-        subj_id = sql_conn.get_last_row_column_data('subject_id',
-                                                    'subject_type')[0][0] + 1
-
         sql_conn.add_subject_to_db(self.text)
 
         self.close()

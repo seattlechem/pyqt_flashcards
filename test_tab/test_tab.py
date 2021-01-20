@@ -57,6 +57,8 @@ class TestTab(QWidget):
         self.test_subject_cb.add_subject_to_combobox()
         self.test_logic_cb.add_logic_to_combobox()
 
+        self.disable_pass_fail_flip_btns(True);
+
     def sub_hbox_setup(self, hbox: QHBoxLayout):
         self.qabox = MyQPlainTextEdit()
         self.qabox.setReadOnly(True)
@@ -210,3 +212,8 @@ class TestTab(QWidget):
 
     def show_card(self):
         self.qabox.setPlainText(self.current_card['question'])
+
+    def disable_pass_fail_flip_btns(self, value: bool):
+        self.pass_btn.setDisabled(value)
+        self.fail_btn.setDisabled(value)
+        self.flip_btn.setDisabled(value)

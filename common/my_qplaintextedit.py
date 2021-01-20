@@ -10,8 +10,8 @@ class MyQPlainTextEdit(QPlainTextEdit):
 
     def setupUi(self):
         self.setStyleSheet("color: white; background-color: black;")
-        self.setStyleSheet(
-            """QPlainTextEdit:::focus {background-color: blue;}""")
+        # self.setStyleSheet(
+            # """QPlainTextEdit:::focus {background-color: blue;}""")
         self.setCursorWidth(2)
         self.setFont(QFont('Consolas', 13))
         self.viewport().setCursor(QtCore.Qt.ArrowCursor)

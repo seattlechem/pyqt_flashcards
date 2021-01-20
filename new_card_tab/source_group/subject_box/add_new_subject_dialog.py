@@ -41,7 +41,7 @@ class AddNewSubjectDialog(QDialog):
         self.text = self.subject_input.text()
 
         if self.text == '':
-            #TODO dialog box
+            self.close()
             msg = MessageBox('Please enter subject')
             msg.exec_()
         else:

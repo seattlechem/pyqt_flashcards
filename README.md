@@ -7,4 +7,5 @@
 6. push button (book search)
 7. add "Select ....." into combobox option as a default before connecting to \
 db
-7. disable start button unless two combobox indexes are not zero (not yet)
+7. disable start button unless two combobox indexes are not zero (completed: 2021/01/25)
+8. Show clickable url (not yet)

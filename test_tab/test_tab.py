@@ -46,6 +46,7 @@ class TestTab(QWidget):
         self.sub_hbox_setup(sub_hbox)
         btm_hbox = QHBoxLayout()
         self.bottom_menu_hbox_setup(btm_hbox)
+        # self.start_btn.setDisabled(True)
 
         vbox = QVBoxLayout()
         vbox.setSpacing(40)
@@ -117,37 +118,37 @@ class TestTab(QWidget):
 
     def start_test(self):
         # get subject
-        self.start_btn.setDisabled(True)
         subject_id = self.test_subject_cb.currentIndex()
         logic = self.test_logic_cb.currentText()
 
-        sql_stm_dic = {
-            'Test all cards in the subject':
-            f"SELECT * FROM question_answer WHERE subject_id='{subject_id}'"
-        }
+        if subject_id != 0 and logic != 'Select .....':
+            sql_stm_dic = {
+                'Test all cards in the subject':
+                f"SELECT * FROM question_answer WHERE subject_id='{subject_id}'"
+            }
 
-        # get cards in list
-        sql_conn = SqliteConnection()
-        # res is in list containing tuple (card_id, question, answer, ... etc)
-        cards = sql_conn.get_sql_query(sql_stm_dic[logic])
+            # get cards in list
+            sql_conn = SqliteConnection()
+            # res is in list containing tuple (card_id, question, answer, ... etc)
+            cards = sql_conn.get_sql_query(sql_stm_dic[logic])
 
-        for card in cards:
-            while not self.flip:
-                self.current_card = self.create_card_dict(card)
-                self.show_card()
-                self.display_labels(sql_conn)
-                self._pass_fail_btn_disabled(True)
-                self.flip_btn.setDisabled(False)
-                qApp.processEvents()
-            while self.flip:
-                self.flip_btn.setDisabled(True)
-                self._pass_fail_btn_disabled(False)
-                qApp.processEvents()
-        end_message = MessageBox('End of Test')
-        end_message.exec_()
-        self._clear()
-        # pass or fail button
-        # flip button
+            for card in cards:
+                while not self.flip:
+                    self.current_card = self.create_card_dict(card)
+                    self.show_card()
+                    self.display_labels(sql_conn)
+                    self._pass_fail_btn_disabled(True)
+                    self.flip_btn.setDisabled(False)
+                    qApp.processEvents()
+                while self.flip:
+                    self.flip_btn.setDisabled(True)
+                    self._pass_fail_btn_disabled(False)
+                    qApp.processEvents()
+            end_message = MessageBox('End of Test')
+            end_message.exec_()
+            self._clear()
+            # pass or fail button
+            # flip button
 
     def create_card_dict(self, card: tuple):
         card_dict = {}

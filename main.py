@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import sys
 import flash_cards_resource
 from PyQt5.QtWidgets import QApplication, QTabWidget, QVBoxLayout, QDialog

@@ -94,14 +94,18 @@ class TestTab(QWidget):
         self.pass_rate_label = MyQLabel()
         self.pass_rate_label.setText('Pass Rate')
         self.pass_rate_data = MyQLabel()
+        self.pass_rate_data.setFixedWidth(20)
 
         self.url = MyQLabel()
+        self.url.setOpenExternalLinks(True)
+        self.url.setFixedWidth(50)
 
         hbox.addWidget(self.last_seen_label)
         hbox.addWidget(self.last_seen_data)
         hbox.addWidget(self.pass_rate_label)
         hbox.addWidget(self.pass_rate_data)
         hbox.addWidget(self.url)
+        hbox.setAlignment(QtCore.Qt.AlignLeft)
         # QPlainTextEdit, vbox (pass, fail, flip) --> another hbox
         # bottom menu: comboBox (subject), comboBox (logic), button (start)
 
@@ -204,12 +208,19 @@ class TestTab(QWidget):
 
     def display_labels(self, sql_conn: SqliteConnection):
         date_info = sql_conn.get_date_info(self.current_card['date_id'])
+        url = sql_conn.get_url(self.current_card['source_id'])
+        url_text_template = '<a href=>Link</a>'
+        url_text = url_text_template[0:8] + url[0][0] + url_text_template[8::]
+
         if date_info[0][3] == 'None':
             last_seen = 'N/A'
+            self.last_seen_data.setText(last_seen)
+            self.url.setText(url_text)
         else:
             last_seen = datetime.datetime.strptime(date_info[0][3],
                                                    '%Y-%m-%d %H:%M:%S.%f')
-        self.last_seen_data.setText(last_seen.date().strftime('%m/%d/%Y'))
+            self.last_seen_data.setText(last_seen.date().strftime('%m/%d/%Y'))
+            self.url.setText(url_text)
 
     def show_card(self):
         self.qabox.setPlainText(self.current_card['question'])

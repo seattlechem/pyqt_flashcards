@@ -129,6 +129,14 @@ class SqliteConnection():
         res = self.get_sql_query(sql_stm)
         return res
 
+    def get_url(self, source_id: int):
+        sql_stm = f"SELECT source_url.url FROM source \
+                    JOIN source_url \
+                    ON source.url_id = source_url.url_id \
+                    WHERE source_id={source_id}"
+        res = self.get_sql_query(sql_stm)
+        return res
+
     def post_question_answer_tb(self, question: str, answer: str,
                                 subject_id: int, date_id: int, source_id: int, \
                                     total_test_times: int,

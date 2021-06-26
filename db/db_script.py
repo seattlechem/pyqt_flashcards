@@ -76,7 +76,7 @@ class SqliteConnection():
         return row_id
 
     def get_source_id(self, url_id: int):
-        sql_stm = f"SELECT source_id FROM source WHERE url_id='{url_id}"
+        sql_stm = f"SELECT source_id FROM source WHERE url_id='{url_id}'"
         source_id = self.get_sql_query(sql_stm)[0][0]
         return source_id
 
@@ -153,15 +153,16 @@ if __name__ == '__main__':
     sql_conn = SqliteConnection()
     # res = sql_conn.get_last_row_column_data('subject_id', 'subject_type')
     # sql_stm = ['test book title', 1972, 'Me']
-    sql_conn.add_book_to_db('test book tilte', 1972, 'me')
+    # sql_conn.add_book_to_db('test book tilte', 1972, 'me')
     # sql_stm = 'test book title'
     # print(sql_conn.check_book_title(sql_stm))
 
     # print(sql_conn.save_to_source_tb(1))
 
-    # sql_conn.post_datetime(datetime.datetime.now(), datetime.datetime.now())
+    res = sql_conn.post_datetime(datetime.datetime.now(), datetime.datetime.now())
     # res = sql_conn.get_datetime(1)
     # print(type(res[0][0]))
+    print(res)
     # print(res[0][0])
 
     # print(len(res))

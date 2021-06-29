@@ -22,7 +22,8 @@ class ComboBox(QtWidgets.QComboBox):
     def add_logic_to_combobox(self):
         logics = [
             'Select .....',
-            'Test all cards in the subject'
+            'Test all cards in the subject',
+            'Test only cards in the subject failed more than test times',
 
         ]
 

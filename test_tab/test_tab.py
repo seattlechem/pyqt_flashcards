@@ -128,7 +128,10 @@ class TestTab(QWidget):
         if subject_id != 0 and logic != 'Select .....':
             sql_stm_dic = {
                 'Test all cards in the subject':
-                f"SELECT * FROM question_answer WHERE subject_id='{subject_id}'"
+                f"SELECT * FROM question_answer WHERE subject_id='{subject_id}'",
+                'Test only cards in the subject failed more than test times':
+                f"SELECT * FROM question_answer WHERE subject_id='{subject_id}' \
+                    AND (total_fail_times - total_test_times) > 0"
             }
 
             # get cards in list

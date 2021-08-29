@@ -32,3 +32,9 @@ db
 ## How to add additional test scripts
 1. test_tab.py
 2. sql_stm_dic
+
+## TODO
+1. subject selection no needed for "test all cards added today"
+2. display "last seen"
+3. test all cards tested today that failed more than two times
+4. link is still remained after test is completed

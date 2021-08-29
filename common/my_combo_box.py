@@ -24,6 +24,7 @@ class ComboBox(QtWidgets.QComboBox):
             'Select .....',
             'Test all cards in the subject',
             'Test only cards in the subject failed more than test times',
+            'Test all cards added today'
 
         ]
 

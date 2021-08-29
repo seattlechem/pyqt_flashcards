@@ -131,7 +131,11 @@ class TestTab(QWidget):
                 f"SELECT * FROM question_answer WHERE subject_id='{subject_id}'",
                 'Test only cards in the subject failed more than test times':
                 f"SELECT * FROM question_answer WHERE subject_id='{subject_id}' \
-                    AND (total_fail_times - total_test_times) > 0"
+                    AND (total_fail_times - total_test_times) > 0",
+                'Test all cards added today':
+                f"SELECT * FROM question_answer WHERE date_id IN (SELECT date_id \
+                    FROM date WHERE strftime('%Y-%m-%d', created_date)\
+                    BETWEEN date('now', '-5 day') AND date('now'))"
             }
 
             # get cards in list

@@ -9,3 +9,26 @@
 db
 7. disable start button unless two combobox indexes are not zero (completed: 2021/01/25)
 8. Show clickable url (not yet)
+9. Test only cards added today
+    now = datetime.datetime.now()
+    search for matching year/mm/dd
+    select * from date where strftime('%Y/%m/%d', created_date)='2021/08/28';
+    select * from question_answer where date_id in (select date_id from date where strftime('%Y/%m/%d', created_date)='2021/08/28');
+    select * from question_answer where date_id in (select date_id from date where strftime('%Y/%m/%d', created_date)=strftime('%Y/%m/%d', datetime('now'));
+    select * from question_answer where date_id in (select date_id from date where strftime('%Y-%m-%d', created_date) = date('now', '-1 day'));
+    ELECT * FROM question_answer WHERE date_id IN (SELECT date_id \
+                    FROM date WHERE strftime('%Y-%m-%d', created_date)\
+                    BETWEEN date('now', '-5 day') AND date('now'))
+
+## How to use
+1. workon pyqt
+2. ./main.py
+
+## SQLite
+1. ctrl shift p
+2. sqlite: open database
+3. navigate to db file
+
+## How to add additional test scripts
+1. test_tab.py
+2. sql_stm_dic

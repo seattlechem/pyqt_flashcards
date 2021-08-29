@@ -135,7 +135,12 @@ class TestTab(QWidget):
                 'Test all cards added today':
                 f"SELECT * FROM question_answer WHERE date_id IN (SELECT date_id \
                     FROM date WHERE strftime('%Y-%m-%d', created_date)\
-                    BETWEEN date('now', '-5 day') AND date('now'))"
+                    BETWEEN date('now', '-5 day') AND date('now'))",
+                'Test all cards added today, failed > 2 times':
+                f"SELECT * FROM question_answer WHERE date_id IN (SELECT date_id \
+                    FROM date WHERE strftime('%Y-%m-%d', created_date)\
+                    BETWEEN date('now', '-5 day') AND date('now')) AND \
+                        total_fail_times > 1"
             }
 
             # get cards in list
@@ -191,7 +196,6 @@ class TestTab(QWidget):
         self.fail_btn.setDisabled(answer)
 
     def pass_btn_clicked(self):
-        print('pass')
         self.flip = False
         sql_conn = SqliteConnection()
         self.increase_total_times(self.current_card['card_id'], sql_conn)
@@ -203,6 +207,11 @@ class TestTab(QWidget):
             total_test_times + 1 WHERE card_id='{card_id}'"
         sql_conn.post_sql_query(sql_stm)
 
+    def increase_total_fail_times(self, card_id: int, sql_conn: SqliteConnection):
+        sql_stm = f"UPDATE question_answer SET total_fail_times=\
+            total_fail_times + 1 WHERE card_id='{card_id}'"
+        sql_conn.post_sql_query(sql_stm)
+
     def update_last_seen_date(self, date_id: int, now: datetime,
                               sql_conn: SqliteConnection):
         sql_stm = f"UPDATE date SET last_seen_date='{now}' \
@@ -210,7 +219,12 @@ class TestTab(QWidget):
         sql_conn.post_sql_query(sql_stm)
 
     def fail_btn_clicked(self):
-        print('fail')
+        #TODO
+        # Increase total_fail_times
+        sql_conn = SqliteConnection()
+        self.increase_total_fail_times(self.current_card['card_id'], sql_conn)
+        now = datetime.datetime.now()
+        self.update_last_seen_date(self.current_card['date_id'], now, sql_conn)
         self.flip = False
 
     def display_labels(self, sql_conn: SqliteConnection):

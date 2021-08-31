@@ -35,6 +35,8 @@ db
 
 ## TODO
 1. subject selection no needed for "test all cards added today"
-2. display "last seen"
+2. display "last seen" (completed 2021/08/30)
 3. test all cards tested today that failed more than two times
-4. link is still remained after test is completed
+4. link is still remained after test is completed (last seen, pass rate, link)
+5. display multiple links
+6. display "Pass Rate" (completed 2021/08/30)

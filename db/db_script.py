@@ -137,6 +137,20 @@ class SqliteConnection():
         res = self.get_sql_query(sql_stm)
         return res
 
+    def get_pass_rate(self, card_id: int):
+        sql_stm = f"select total_test_times, total_fail_times FROM question_answer \
+                    WHERE card_id={card_id}"
+
+        res = self.get_sql_query(sql_stm)
+        total_pass = res[0][0]
+        total_fail = res[0][1]
+
+        if total_pass != 0 and total_fail != 0:
+            pass_rate = ((total_pass) / (total_pass + total_fail)) * 100
+        else:
+            pass_rate = 0
+        return str(int(pass_rate))
+
     def post_question_answer_tb(self, question: str, answer: str,
                                 subject_id: int, date_id: int, source_id: int, \
                                     total_test_times: int,

@@ -94,7 +94,7 @@ class TestTab(QWidget):
         self.pass_rate_label = MyQLabel()
         self.pass_rate_label.setText('Pass Rate')
         self.pass_rate_data = MyQLabel()
-        self.pass_rate_data.setFixedWidth(20)
+        self.pass_rate_data.setFixedWidth(25)
 
         self.url = MyQLabel()
         self.url.setOpenExternalLinks(True)
@@ -232,16 +232,18 @@ class TestTab(QWidget):
         url = sql_conn.get_url(self.current_card['source_id'])
         url_text_template = '<a href=>Link</a>'
         url_text = url_text_template[0:8] + url[0][0] + url_text_template[8::]
+        pass_rate = sql_conn.get_pass_rate(self.current_card['card_id'])
+        self.pass_rate_data.setText(pass_rate + '%')
 
         if date_info[0][3] == 'None':
             last_seen = 'N/A'
             self.last_seen_data.setText(last_seen)
-            self.url.setText(url_text)
         else:
             last_seen = datetime.datetime.strptime(date_info[0][3],
                                                    '%Y-%m-%d %H:%M:%S.%f')
             self.last_seen_data.setText(last_seen.date().strftime('%m/%d/%Y'))
-            self.url.setText(url_text)
+        self.url.setText(url_text)
+
 
     def show_card(self):
         self.qabox.setPlainText(self.current_card['question'])
